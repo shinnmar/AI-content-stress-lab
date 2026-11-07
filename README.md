@@ -1,1 +1,1 @@
-# AI-content-stresst-lab
+# AI-content-stress-lab
