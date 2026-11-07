@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="AI Content Stress Lab: un laboratorio frontend de contenido variable, CSS moderno, JavaScript y accesibilidad.">
+  <title>AI Content Stress Lab · shinnmar</title>
+  <style>
+:root{font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;color-scheme:light;--bg:#faf9ff;--panel:#fff;--panel-soft:#f4f3fc;--text:#1d2330;--muted:#60677a;--line:#dddfea;--line-strong:#cbd0e0;--cyan:#087d87;--cyan-soft:#dcf7f4;--pink:#e85c9a;--pink-soft:#ffe4f0;--lavender:#7453d8;--lavender-soft:#eee8ff;--code:#202939;--shadow:0 20px 50px rgba(34,33,76,.055);--radius:19px}
+html[data-theme="dark"]{color-scheme:dark;--bg:#101923;--panel:#182630;--panel-soft:#20333e;--text:#f2f7f9;--muted:#b6c6cf;--line:#36505b;--line-strong:#4b6570;--cyan:#6bdfd4;--cyan-soft:#1c4149;--pink:#ffa0c5;--pink-soft:#473244;--lavender:#c5adff;--lavender-soft:#342c51;--code:#0d171f;--shadow:0 20px 50px rgba(0,0,0,.14)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);line-height:1.5;transition:background .2s,color .2s}button,select,input,textarea{font:inherit}button,select{cursor:pointer}button:disabled{cursor:progress;opacity:.64}a{color:inherit}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--pink);outline-offset:3px}.wrapper{width:min(1160px,calc(100% - 44px));margin-inline:auto}.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.skip-link{position:absolute;left:16px;top:-90px;background:var(--panel);padding:12px;z-index:200}.skip-link:focus{top:12px}
+.topbar{min-height:82px;padding:12px max(22px,calc((100vw - 1160px)/2));display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line);background:var(--panel)}.brand{text-decoration:none;font-weight:850;letter-spacing:-.03em;font-size:1.08rem}.brand-spark{color:var(--pink);font-size:1.5rem;margin-right:8px}.brand-slash{color:var(--muted);padding:0 4px}.top-actions{display:flex;align-items:center;gap:16px}.header-link{text-decoration:none;color:var(--muted);font-weight:650;font-size:.9rem}.icon-button{border:1px solid var(--line);background:var(--panel-soft);color:var(--text);padding:10px 15px;border-radius:12px;display:flex;align-items:center;gap:10px;font-weight:700}.theme-glyph{font-size:1.25rem;color:var(--lavender)}
+.intro{position:relative;padding:85px 0 76px}.eyebrow,.section-index{font:800 .76rem/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.11em;color:var(--lavender)}.eyebrow{display:flex;align-items:center;gap:9px}.status-dot{width:9px;height:9px;background:var(--cyan);border-radius:50%;display:inline-block;box-shadow:0 0 0 4px var(--cyan-soft);flex-shrink:0}.intro h1{font-weight:850;letter-spacing:-.065em;font-size:clamp(3.45rem,7vw,6.8rem);line-height:1.04;margin:22px 0 16px}.intro h1 em,.concept h2 em{font-style:normal;color:var(--lavender)}.period{color:var(--pink)}.lead{font-size:clamp(1.05rem,2.3vw,1.33rem);color:var(--muted);max-width:630px;margin:0 0 26px}.intro-tags{display:flex;flex-wrap:wrap;gap:9px}.intro-tags span{background:var(--panel);border:1px solid var(--line);padding:7px 12px;border-radius:100px;font-weight:650;font-size:.78rem}.decor-star{position:absolute;pointer-events:none;color:var(--lavender);opacity:.25;font-size:5rem}.decor-star-one{right:8%;top:65px}.decor-star-two{right:18%;bottom:22px;color:var(--pink);font-size:2.4rem}
+.section-header{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.section-header h2,.concept h2,.snippets h2,.resources h2{font-weight:840;letter-spacing:-.045em;line-height:1.18;font-size:clamp(1.8rem,3.4vw,2.6rem);margin:9px 0}.section-header p,.resources>p{color:var(--muted);margin:0}.live-pill{font:.75rem ui-monospace,monospace;font-weight:800;background:var(--cyan-soft);border:1px solid var(--cyan);color:var(--cyan);padding:8px 12px;border-radius:100px;white-space:nowrap;display:flex;align-items:center;gap:11px}.lab-grid{display:grid;grid-template-columns:minmax(290px,338px) minmax(0,1fr);gap:18px;align-items:start}.control-panel,.preview-panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.control-panel{padding:0 22px 20px}.panel-heading{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);padding:18px 0}.panel-heading h3{font-size:1rem;margin:0;letter-spacing:-.03em}.panel-num{margin-left:auto;font:.74rem ui-monospace,monospace;color:var(--muted)}.tiny-icon{color:var(--pink);font-size:1.2rem}.field-group{border:0;min-width:0;border-bottom:1px solid var(--line);padding:19px 0 19px;margin:0}.field-group:last-child{border-bottom:0;padding-bottom:0}.field-group legend{font:800 .73rem ui-monospace,monospace;color:var(--lavender);letter-spacing:.07em;padding:0}.field-group legend span{font-family:inherit;color:var(--text);letter-spacing:0;margin-left:6px}.field-label{display:block;font-size:.83rem;color:var(--muted);margin:7px 0}.field-group select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line-strong);background:var(--panel-soft);color:var(--text);font-weight:620;font-size:.89rem}.button-pair{display:flex;gap:8px;margin-top:12px}.button{border:1px solid var(--line-strong);border-radius:10px;padding:10px 12px;font-weight:750;font-size:.79rem;line-height:1.2;flex:1;white-space:normal}.button-outline{background:var(--panel-soft);color:var(--text)}.button-gradient{background:linear-gradient(115deg,#7056d7,#e865a5);border-color:transparent;color:#fff}.button-reset{margin-top:12px;width:100%;background:transparent;color:var(--muted)}.helper{font-size:.76rem;color:var(--muted);line-height:1.45;margin:10px 0 0}.segmented{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--panel-soft);border-radius:12px;padding:5px;border:1px solid var(--line)}.seg{color:var(--muted);background:transparent;border:0;padding:11px 7px;font-size:.88rem;font-weight:750;border-radius:8px}.seg.active{color:var(--text);background:var(--panel);box-shadow:0 2px 9px rgba(0,0,0,.07);border:1px solid var(--line)}.range-head{display:flex;justify-content:space-between;gap:10px;font-size:.83rem}.range-head output{font-family:ui-monospace,monospace;font-weight:800;color:var(--cyan)}input[type=range]{width:100%;accent-color:var(--lavender);margin:12px 0}.range-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:.73rem}
+.preview-toolbar{height:51px;background:var(--panel-soft);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 17px}.browser-dots{display:flex;gap:5px}.browser-dots i{width:10px;height:10px;border-radius:50%;background:#f29bae}.browser-dots i:nth-child(2){background:#f2c67c}.browser-dots i:nth-child(3){background:#8ed8b6}.preview-title{font:.76rem ui-monospace,monospace;color:var(--muted)}.implementation-label{margin-left:auto;border:1px solid var(--line);padding:5px 8px;border-radius:7px;font:800 .65rem ui-monospace,monospace;letter-spacing:.03em}.fragile-label{background:var(--pink-soft);color:var(--pink)}.robust-label{background:var(--cyan-soft);color:var(--cyan)}.preview-viewport{min-height:450px;padding:20px 15px;background:repeating-linear-gradient(45deg,var(--panel-soft),var(--panel-soft) 9px,var(--panel) 9px,var(--panel) 18px);overflow:auto;display:flex;align-items:start;justify-content:center}.preview-page{max-width:100%;width:min(var(--preview-width,680px),100%);min-height:360px;background:var(--bg);border-radius:12px;border:1px solid var(--line);padding:20px;box-shadow:0 8px 22px rgba(17,24,39,.08);font-size:calc(1rem * var(--preview-scale,1));transition:width .2s}.preview-masthead{display:flex;justify-content:space-between;gap:10px;font:.65em ui-monospace,monospace;color:var(--muted);letter-spacing:.08em;align-items:center}.mini-chip{padding:.35em .7em;background:var(--lavender-soft);color:var(--lavender);border-radius:50px;font-size:.9em;font-weight:800}.preview-intro{margin:20px 0 17px}.preview-intro h3{font-weight:870;letter-spacing:-.045em;line-height:1.13;font-size:1.65em;margin:0 0 7px}.preview-intro p{font-size:.83em;color:var(--muted);margin:0}.session-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:12px}.card-slot{container-type:inline-size;min-width:0}.card{padding:15px;background:var(--panel);border:1px solid var(--line);border-radius:12px;display:grid;gap:8px;min-width:0;box-shadow:0 3px 10px rgba(20,24,40,.03)}.card-top{display:flex;gap:6px;justify-content:space-between;align-items:center;font-size:.67em;font-weight:800;color:var(--muted)}.card-track{background:var(--cyan-soft);color:var(--cyan);border-radius:99px;padding:3px 7px}.card-title{font-weight:820;font-size:.94em;line-height:1.4;margin:0}.card-desc{color:var(--muted);line-height:1.52;font-size:.78em;margin:0}.card-speaker{display:flex;align-items:center;gap:7px;border-top:1px solid var(--line);padding-top:10px;font-size:.72em;font-weight:720}.speaker-avatar{border-radius:50%;width:22px;height:22px;display:inline-grid;place-items:center;background:var(--lavender-soft);color:var(--lavender);font-weight:800;flex-shrink:0}.card{overflow:hidden}.fragile .card{height:174px;grid-template-rows:auto minmax(0,1fr) minmax(0,.9fr) auto}.fragile .card-title,.fragile .card-desc,.fragile .card-speaker span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}.fragile .card-desc{white-space:nowrap}.robust .session-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr))}.robust .card{height:auto;grid-template-rows:auto auto 1fr auto;overflow:visible}.robust .card-title,.robust .card-desc,.robust .card-speaker{overflow-wrap:anywhere;min-width:0;white-space:normal}.robust .card-title{text-wrap:balance}.robust .card-desc{white-space:pre-wrap}.robust .card{border-color:var(--line-strong)}@container (min-width:27rem){.robust .card{grid-template-columns:auto minmax(0,1fr);column-gap:14px}.robust .card-top{grid-column:1/-1}.robust .card-title{grid-column:1/-1}.robust .card-desc{grid-column:1/-1}}.preview-message{border:1px dashed var(--line-strong);background:var(--panel);color:var(--muted);padding:18px;border-radius:12px;margin-bottom:14px;font-size:.83em}.preview-footer{min-height:51px;display:flex;justify-content:space-between;align-items:center;gap:15px;border-top:1px solid var(--line);padding:10px 16px;font-size:.75rem;color:var(--muted)}.indicator{display:flex;gap:9px;align-items:center}.indicator-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);flex-shrink:0}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line)}.metrics>div{display:flex;flex-direction:column;align-items:center;gap:1px;padding:15px 5px;border-right:1px solid var(--line)}.metrics>div:last-child{border-right:0}.metrics strong{font:850 1.03rem ui-monospace,monospace;color:var(--lavender)}.metrics span{font-size:.69rem;color:var(--muted);text-align:center}.disclaimer{color:var(--muted);font-size:.76rem;margin:12px 0 0}
+.concept,.snippets,.resources{padding-top:89px}.concept-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}.concept article{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:23px 18px;box-shadow:var(--shadow)}.concept-icon{width:40px;height:40px;display:grid;place-items:center;background:var(--lavender-soft);color:var(--lavender);border-radius:12px;font-weight:900}.icon-ai{background:var(--pink-soft);color:var(--pink)}.icon-js{background:var(--cyan-soft);color:var(--cyan)}.concept article h3{margin:18px 0 7px;font-size:1rem}.concept article p{font-size:.84rem;color:var(--muted);margin:0}.snippets details{background:var(--panel);border:1px solid var(--line);margin-top:12px;border-radius:13px;overflow:hidden}.snippets summary{padding:18px 20px;cursor:pointer;font-weight:730}.snippets pre{background:var(--code);color:#e9f3ff;margin:0;padding:24px;overflow-x:auto;line-height:1.7;font-size:.83rem}.resource-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}.resource-list a{display:flex;justify-content:space-between;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 17px;text-decoration:none;font-size:.87rem;font-weight:700}.resource-list a span{color:var(--lavender)}.footer{margin-top:90px;padding-top:23px;padding-bottom:31px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;color:var(--muted);font-size:.78rem}.footer a{font-weight:800;text-decoration:none}.heart{color:var(--pink)}
+@media(max-width:860px){.lab-grid{grid-template-columns:1fr}.control-panel{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}.panel-heading{grid-column:1/-1}.field-group:nth-of-type(2){border-bottom:1px solid var(--line)}.concept-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.wrapper{width:min(100% - 26px,1160px)}.topbar{min-height:65px;padding:10px 13px}.brand{font-size:.86rem}.top-actions{gap:8px}.header-link{display:none}.intro{padding:62px 0 56px}.intro h1{font-size:3.25rem}.intro-tags span{font-size:.72rem}.decor-star{display:none}.section-header{display:block}.live-pill{width:max-content;margin-top:12px}.control-panel{display:block}.preview-viewport{min-height:350px;padding:12px 7px}.preview-page{padding:12px;min-width:0}.preview-masthead{flex-wrap:wrap}.concept-grid,.resource-list{grid-template-columns:1fr}.footer{flex-direction:column}.preview-toolbar{gap:8px}.preview-title{font-size:.67rem}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+
+/* ===== v2: contraste, IA, informe de LLEGA, estados ===== */
+:root{--cyan-ink:#066973;--pink-ink:#b3195f;--lav-ink:#6544cc}
+html[data-theme="dark"]{--cyan-ink:var(--cyan);--pink-ink:var(--pink);--lav-ink:var(--lavender)}
+.live-pill,.card-track,.icon-js,.robust-label{color:var(--cyan-ink)}
+.fragile-label{color:var(--pink-ink)}
+.mini-chip,.concept-icon{color:var(--lav-ink)}
+.icon-ai{color:var(--pink-ink)}
+.field-group textarea{width:100%;min-height:5.5rem;resize:vertical;padding:10px;margin-top:6px;border-radius:10px;border:1px solid var(--line-strong);background:var(--panel-soft);color:var(--text);font:.78rem/1.45 ui-monospace,SFMono-Regular,Consolas,monospace}
+.field-group textarea:focus-visible,.preview-viewport:focus-visible,pre:focus-visible{outline:3px solid var(--pink-ink);outline-offset:3px}
+.check{display:flex;gap:9px;align-items:flex-start;font-size:.82rem;margin-top:9px;line-height:1.35}
+.check input{margin-top:2px;accent-color:var(--lavender);flex-shrink:0;width:16px;height:16px}
+.checks{margin-top:4px}
+.prompt summary{cursor:pointer;font-size:.82rem;font-weight:720;margin-top:10px}
+.prompt pre{white-space:pre-wrap;font-size:.73rem;line-height:1.5;background:var(--code);color:#e9f3ff;padding:12px;border-radius:10px;overflow:auto;max-height:12rem;margin:8px 0}
+.button-block{margin-top:10px;width:100%;display:block}
+.error-box{border:1px solid var(--pink-ink);background:var(--pink-soft);color:var(--text);border-radius:12px;padding:12px 14px;margin-bottom:12px;font:.74em/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
+.xss-banner{border:1px solid var(--pink-ink);background:var(--pink-soft);color:var(--text);border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:.8em;font-weight:700}
+.llega{border-top:1px solid var(--line);padding:14px 16px 6px;font-size:.78rem}
+.llega h4{margin:0 0 6px;font:800 .72rem ui-monospace,monospace;letter-spacing:.07em;color:var(--lav-ink)}
+.llega ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.5}
+.statusbar{border-top:1px solid var(--line);margin:0;padding:11px 16px;font-size:.74rem;color:var(--muted)}
+.statusbar span{color:var(--text);font-weight:700}
+.metrics{grid-template-columns:repeat(4,1fr)}
+.preview-page.list .session-grid{grid-template-columns:1fr}
+.robust.reserve .stream-target{min-block-size:14lh}
+.robust .card-desc.clamp{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
+.more{margin-left:auto;flex-shrink:0;border:1px solid var(--line-strong);background:var(--lavender-soft);color:var(--lav-ink);border-radius:99px;padding:3px 11px;font-weight:800;font-size:.95em;cursor:pointer}
+/* Container query con efecto visible: la tarjeta cambia según SU caja, no según la pantalla */
+@container (min-width:24rem){
+  .robust .card{grid-template-columns:4.5rem minmax(0,1fr);grid-template-rows:auto;column-gap:16px;align-items:start}
+  .robust .card-top{grid-column:1;grid-row:1/4;flex-direction:column;align-items:flex-start;gap:6px}
+  .robust .card-title,.robust .card-desc,.robust .card-speaker{grid-column:2}
+}
+@media(max-width:600px){.metrics{grid-template-columns:repeat(2,1fr)}.metrics>div:nth-child(2n){border-right:0}.metrics>div:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+</style>
+  <script defer>
+'use strict';
+/* AI Content Stress Lab v2 · Vanilla JS, sin dependencias y sin red (la CSP bloquea cualquier conexión). */
+
+const SAVED = {
+ "A": {
+  "name": "Prompt simple",
+  "prompt": "Genera 4 sesiones para la agenda de una conferencia de desarrolladores web en Arequipa. Devuélvelas como JSON: un arreglo de objetos con los campos time, track, title, speaker y description.",
+  "response": "Claro, aquí tienes una agenda de ejemplo para la conferencia:\n\n```json\n[\n  {\n    \"time\": \"09:30\",\n    \"track\": \"WEB\",\n    \"title\": \"Del prototipo a producción: cómo construir aplicaciones web rápidas y accesibles con CSS moderno\",\n    \"speaker\": \"Camila Quispe\",\n    \"description\": \"Un recorrido práctico por las nuevas capacidades de CSS (container queries, :has() y view transitions) y cómo combinarlas para crear interfaces adaptables sin depender de librerías pesadas.\"\n  },\n  {\n    \"time\": \"11:00\",\n    \"track\": \"IA\",\n    \"title\": \"Integrando modelos de lenguaje en tu frontend: patrones, límites y buenas prácticas\",\n    \"speaker\": \"Rodrigo Valdivia\",\n    \"description\": \"Aprende a conectar APIs de IA generativa con tu interfaz, manejar respuestas en streaming y diseñar experiencias que sigan siendo útiles cuando el modelo tarda, falla o responde algo inesperado.\"\n  },\n  {\n    \"time\": \"14:00\",\n    \"track\": \"UX\",\n    \"title\": \"Diseñar para la incertidumbre: interfaces que sobreviven al contenido real\",\n    \"speaker\": \"Lucía Mamani\",\n    \"description\": \"Textos largos, datos incompletos, traducciones y estados de carga: una guía de decisiones de diseño para componentes que no se rompen cuando el contenido no coincide con el mockup.\"\n  },\n  {\n    \"time\": \"16:30\",\n    \"track\": \"A11Y\",\n    \"title\": \"Accesibilidad en la era de la IA generativa: lo que el código autogenerado suele olvidar\",\n    \"speaker\": \"Diego Huamán\",\n    \"description\": \"Revisamos ejemplos de componentes generados con IA y los auditamos con herramientas automáticas y navegación por teclado para detectar problemas de foco, contraste y semántica.\"\n  }\n]\n```\n\nSi quieres, puedo ajustar los horarios, los tracks o el tono de las descripciones."
+ },
+ "B": {
+  "name": "Pide «formato»",
+  "prompt": "Genera 4 sesiones para la agenda de una conferencia de desarrolladores web en Arequipa. Devuélvelas como JSON: un arreglo de objetos con los campos time, track, title, speaker y description. Quiero descripciones atractivas, con formato (negritas y una lista corta).",
+  "response": "¡Claro! Aquí tienes 4 sesiones con descripciones con formato:\n\n```json\n[\n  {\n    \"time\": \"09:30\",\n    \"track\": \"WEB\",\n    \"title\": \"CSS moderno sin miedo\",\n    \"speaker\": \"Camila Quispe\",\n    \"description\": \"**Lo que aprenderás:**\\n- Container queries en componentes reales\\n- Cuándo usar `:has()` y cuándo no\\n- Transiciones de vista sin librerías\\n\\nUna charla práctica, con código desde el minuto uno.\"\n  },\n  {\n    \"time\": \"11:00\",\n    \"track\": \"IA\",\n    \"title\": \"Frontend para respuestas de IA\",\n    \"speaker\": \"Rodrigo Valdivia\",\n    \"description\": \"**Streaming, errores y estados vacíos.**\\n- Cómo pintar texto que llega por partes\\n- Qué hacer cuando el modelo falla\\n- Cómo validar la salida antes de mostrarla\\n\\n_Incluye demo en vivo._\"\n  },\n  {\n    \"time\": \"14:00\",\n    \"track\": \"UX\",\n    \"title\": \"Diseñar para el contenido real\",\n    \"speaker\": \"Lucía Mamani\",\n    \"description\": \"**Tu mockup no es el contenido.**\\n- Textos largos y traducciones\\n- Datos que faltan\\n- Estados de carga que informan\\n\\nSal con una lista de pruebas para tu próximo componente.\"\n  },\n  {\n    \"time\": \"16:30\",\n    \"track\": \"A11Y\",\n    \"title\": \"Accesibilidad con IA: revisa lo que generó\",\n    \"speaker\": \"Diego Huamán\",\n    \"description\": \"**Auditoría rápida de código generado.**\\n- Teclado y foco\\n- Contraste y semántica\\n- Anuncios para lectores de pantalla\\n\\nTodo se revisa en vivo, sin diapositivas de relleno.\"\n  }\n]\n```"
+ },
+ "C": {
+  "name": "Con criterios de aceptación",
+  "prompt": "Genera 4 sesiones para la agenda de una conferencia de desarrolladores web en Arequipa. Devuélvelas como JSON: un arreglo de objetos con los campos time, track, title, speaker y description.\n\nReglas:\n- Responde únicamente con JSON válido, sin texto antes ni después y sin markdown.\n- title: máximo 70 caracteres.\n- description: máximo 140 caracteres, texto plano.\n- Si no conoces el ponente, usa null.",
+  "response": "[\n  {\"time\": \"09:30\", \"track\": \"WEB\", \"title\": \"CSS moderno para interfaces adaptables\", \"speaker\": \"Camila Quispe\", \"description\": \"Container queries, :has() y view transitions aplicados a componentes reales.\"},\n  {\"time\": \"11:00\", \"track\": \"IA\", \"title\": \"Frontend para respuestas de IA\", \"speaker\": \"Rodrigo Valdivia\", \"description\": \"Streaming, errores y validación de la salida antes de mostrarla.\"},\n  {\"time\": \"14:00\", \"track\": \"UX\", \"title\": \"Diseñar para el contenido real\", \"speaker\": null, \"description\": \"Textos largos, datos faltantes y estados de carga que informan.\"},\n  {\"time\": \"16:30\", \"track\": \"A11Y\", \"title\": \"Accesibilidad en código generado por IA\", \"speaker\": \"Diego Huamán\", \"description\": \"Teclado, foco, contraste y semántica: qué revisar antes de publicar.\"}\n]"
+ }
+};
+
+// Texto de ejemplo para simular el streaming (no es una respuesta real de IA).
+const STREAM_TEXT = 'Claro. Para que una tarjeta aguante contenido generado por una IA conviene empezar por lo básico: no asumir cuánto va a medir el texto. Un título puede llegar con tres palabras o con treinta; una descripción, con una frase o con un párrafo entero, y a veces con una URL sin espacios. Si la altura es fija, algo se corta. Si la altura es fluida, algo se mueve. Si reservas espacio, apuestas a que el texto no será más largo de lo previsto. Ninguna opción es gratis: lo importante es elegir cuál pagas y probarla con contenido real, no con un Lorem Ipsum perfecto.';
+
+const fixtures = {
+  ideal: [
+    { time:'09:40',track:'WEB',title:'Diseñando la web del futuro',speaker:'Lucía Vega',description:'Ideas prácticas para la web de hoy.' },
+    { time:'11:20',track:'IA',title:'Creando con inteligencia artificial',speaker:'Marco Torres',description:'Herramientas y patrones con IA.' },
+    { time:'14:00',track:'UX',title:'Interfaces que conectan',speaker:'Andrea Flores',description:'Diseño centrado en las personas.' }
+  ],
+  long: [
+    {time:'09:40',track:'WEB',title:'Del contenido fijo al contenido generativo: cómo diseñar y desarrollar interfaces que se mantienen comprensibles cuando los modelos producen respuestas de tamaño y estructura impredecibles',speaker:'Lucía Vega',description:'Esta sesión recorre decisiones de desarrollo frontend, diseño de componentes, estados de carga y comportamiento responsivo. Se incluyen casos reales de textos extensos y mecanismos para evitar que un diseño dependa de truncar contenido importante.'},
+    {time:'11:20',track:'IA',title:'¿Qué ocurre cuando una aplicación debe representar información cuya longitud nunca fue definida por una persona diseñadora?',speaker:'Equipo de experiencia e ingeniería de producto',description:'Un contenido muy largo no debería obligarnos a calcular manualmente la altura de cada tarjeta. Debemos permitir que las cajas crezcan y que sus descendientes puedan encogerse dentro del espacio disponible.'},
+    {time:'14:00',track:'UX',title:'Explorando nuevas formas de comunicación',speaker:'Andrea Flores',description:'El contenido puede crecer: primero llega una idea corta, luego llega una propuesta con detalles, ejemplos y varios pasos. La interfaz debe ofrecer una experiencia coherente sin importar la longitud.'}
+  ],
+  url: [
+    {time:'09:40',track:'WEB',title:'Los enlaces también son contenido',speaker:'Lucía Vega',description:'https://devfest.example/sesiones/propuesta-de-desarrollo-de-interfaces-resilientes-para-aplicaciones-de-ia-generativa-sin-espacios-y-con-caracteres-largos'},
+    {time:'11:20',track:'IA',title:'Min-content y palabras',speaker:'Marco Torres',description:'SupercalifragilisticexpialidociousABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHIJKLMN'},
+    {time:'14:00',track:'UX',title:'URL, dispositivos y espacios',speaker:'Andrea Flores',description:'La navegación y la información deben sobrevivir al contenido que no tiene oportunidades normales de salto de línea.'}
+  ],
+  missing: [
+    {time:'09:40',track:'WEB',title:'Accesibilidad en equipos de producto',speaker:'Lucía Vega',description:'Una charla de accesibilidad aplicada.'},
+    {time:'11:20',track:'IA',title:'Interfaces con información incompleta',speaker:''},
+    {time:'14:00',track:'UX',title:'Diseño de sistemas adaptables',description:'Se recibió contenido sin el campo del ponente.'}
+  ],
+  multilingual: [
+    {time:'09:40',track:'WEB',lang:'en',title:'Building resilient interfaces for AI-generated content',speaker:'Avery Rivera',description:'Longer English phrases may wrap differently and reveal hidden assumptions in your card layouts.'},
+    {time:'11:20',track:'IA',lang:'es',title:'Diseñando experiencias que no dependen de textos perfectos',speaker:'Roxana Quispe',description:'Las traducciones no tienen siempre la misma extensión; los componentes deben permitir que el texto cambie.'},
+    {time:'14:00',track:'UX',lang:'ja',title:'ウェブインターフェースの設計とアクセシビリティ',speaker:'Hana Nakamura',description:'同じコンポーネントでも言語によって行の折り返し方が異なります。'}
+  ],
+  unsafe: [
+    {time:'09:40',track:'WEB',title:'Los datos externos no son HTML seguro',speaker:'Lucía Vega',description:'Este título usa texto plano; la interfaz nunca debería interpretar marcado no confiable.'},
+    {time:'11:20',track:'IA',title:'<img src=x onerror="window.__xss&&window.__xss()"> NO DEBE EJECUTARSE',speaker:'Marco Torres',description:'<script>console.log("no ejecutar")<\/script> Esto debe mostrarse como texto, nunca como código HTML interpretado.'},
+    {time:'14:00',track:'UX',title:'Renderizado seguro con textContent',speaker:'Andrea Flores',description:'JavaScript crea elementos y escribe texto con textContent, no inyecta HTML desde la respuesta.'}
+  ]
+};
+const scenarioNames = { ideal:'Lorem ipsum mode', long:'Títulos interminables', url:'URL sin cortes', missing:'Campos incompletos', multilingual:'Idiomas + texto variado', unsafe:'HTML no confiable' };
+
+const $ = (s) => document.querySelector(s);
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const state = {
+  source: fixtures.ideal, scenario: 'ideal', label: 'Escenario ' + scenarioNames.ideal,
+  ai: null, mode: 'fragile', width: 680, scale: 100, layout: 'grid',
+  mut: new Set(), reserve: false, clamp: false, streaming: false, token: 0, lastRaw: fixtures.ideal
+};
+
+/* ---------- Acciones que ejecuta el contenido hostil (inofensivas) ---------- */
+window.__xss = function () {
+  $('#xss-banner').hidden = false;
+  announce('Advertencia: el contenido ejecutó código en la página.');
+};
+
+/* ---------- LLEGA: validar y normalizar (solo en modo resiliente) ---------- */
+const HTML_RE = /<[a-z!\/][^>]*>/i;
+const MD_RE = /\*\*|__|^#{1,6}\s|^\s*[-*]\s/m;
+
+function normalizeSession(item, i) {
+  const notes = [];
+  const n = i + 1;
+  if (!item || typeof item !== 'object' || Array.isArray(item)) {
+    notes.push(`Sesión ${n}: no era un objeto; usé valores por defecto.`);
+    item = {};
+  }
+  const field = (key, fallback, max, label) => {
+    let v = item[key];
+    if (key === 'speaker' && v && typeof v === 'object' && typeof v.name === 'string') {
+      notes.push(`Sesión ${n}: el ponente llegó como objeto; usé su name.`);
+      v = typeof v.role === 'string' && v.role.trim() ? `${v.name} · ${v.role}` : v.name;
+    }
+    if (typeof v !== 'string' || !v.trim()) {
+      notes.push(`Sesión ${n}: falta ${label} → «${fallback}».`);
+      return { value: fallback, missing: true };
+    }
+    let clean = v.trim();
+    if (clean.length > max) {
+      notes.push(`Sesión ${n}: ${label} de ${clean.length} caracteres recortado a ${max} (decisión: ¿recortar o mostrar todo?).`);
+      clean = clean.slice(0, max - 1).trimEnd() + '…';
+    }
+    if (HTML_RE.test(clean)) notes.push(`Sesión ${n}: ${label} trae HTML; se muestra como texto.`);
+    else if (MD_RE.test(clean)) notes.push(`Sesión ${n}: ${label} trae markdown; se muestra literal (decisión: ¿parser + sanitizer?).`);
+    return { value: clean, missing: false };
+  };
+  const time = field('time', '--:--', 30, 'la hora');
+  const track = field('track', 'WEB', 16, 'el track');
+  const title = field('title', 'Sesión sin título', 650, 'el título');
+  const speaker = field('speaker', 'Ponente por confirmar', 180, 'el ponente');
+  const description = field('description', 'Descripción no disponible.', 2400, 'la descripción');
+  return {
+    time: time.value, track: track.value, title: title.value, speaker: speaker.value, description: description.value,
+    lang: typeof item.lang === 'string' && /^[a-z]{2,3}(-[A-Za-z0-9]+)*$/.test(item.lang) ? item.lang : '',
+    missing: title.missing || speaker.missing || description.missing,
+    notes
+  };
+}
+
+// La IA suele envolver el JSON en ```json y añadir texto antes y después.
+function parseAI(text) {
+  const notes = [];
+  let s = String(text ?? '').trim();
+  if (!s) throw new Error('La respuesta está vacía.');
+  const fence = s.match(/```[a-zA-Z]*\s*([\s\S]*?)```/);
+  if (fence) {
+    const outside = (s.slice(0, fence.index) + s.slice(fence.index + fence[0].length)).trim();
+    s = fence[1].trim();
+    notes.push('Quité el bloque de código ```json que envolvía el JSON.');
+    if (outside) notes.push('Quité el texto de alrededor («' + outside.replace(/\s+/g, ' ').slice(0, 30) + '…»).');
+  }
+  const a = s.search(/[\[{]/);
+  const b = Math.max(s.lastIndexOf(']'), s.lastIndexOf('}'));
+  if (a === -1) throw new Error('No encontré JSON en la respuesta.');
+  if (b < a) throw new Error('El JSON está incompleto (falta cerrar ] o }). ¿Se cortó la respuesta?');
+  if (a > 0 || b < s.length - 1) {
+    s = s.slice(a, b + 1);
+    if (!fence) notes.push('Quité el texto que rodeaba al JSON.');
+  }
+  let data;
+  try { data = JSON.parse(s); } catch (e) { throw new Error('JSON inválido (' + e.message + ').'); }
+  let list = Array.isArray(data) ? data : null;
+  if (!list && data && typeof data === 'object') {
+    list = Object.values(data).find(Array.isArray) || null;
+    if (list) notes.push('El JSON venía dentro de un objeto; usé su lista.');
+  }
+  if (!list) throw new Error('El JSON no contiene una lista de sesiones.');
+  if (!list.length) throw new Error('La lista de sesiones está vacía.');
+  if (list.length > 8) { notes.push(`Llegaron ${list.length} sesiones; muestro las primeras 8.`); list = list.slice(0, 8); }
+  notes.push(`Interpreté ${list.length} sesiones.`);
+  return { items: list, notes };
+}
+
+/* ---------- Mutaciones: las añade el laboratorio, no la IA ---------- */
+function mutate(list) {
+  if (!state.mut.size) return list;
+  const out = list.map((x) => (x && typeof x === 'object' && !Array.isArray(x) ? { ...x } : x));
+  const at = (k) => { const s = out[Math.min(k, out.length - 1)]; return s && typeof s === 'object' ? s : null; };
+  if (state.mut.has('title')) { const s = at(0); if (s && typeof s.title === 'string') s.title = Array(4).fill(s.title).join(' — '); }
+  if (state.mut.has('url')) { const s = at(1); if (s) s.description = 'https://devfest.example/agenda/sesiones/' + 'propuesta-de-interfaces-resilientes-para-contenido-generado-por-ia-'.repeat(3) + 'sin-espacios'; }
+  if (state.mut.has('html')) { const s = at(1); if (s) s.title = '<img src=x onerror="window.__xss&&window.__xss()"> ' + (s.title ?? ''); }
+  if (state.mut.has('speaker')) { const s = at(2); if (s) delete s.speaker; }
+  return out;
+}
+
+/* ---------- Render ---------- */
+function el(tag, className, text) {
+  const element = document.createElement(tag);
+  if (className) element.className = className;
+  if (text !== undefined) element.textContent = String(text); // Seguridad: el texto del modelo nunca se interpreta como HTML.
+  return element;
+}
+
+// MODO FRÁGIL: confía en el dato, lo pinta como HTML y no valida nada.
+function cardFragile(s) {
+  const slot = el('div', 'card-slot');
+  slot.setAttribute('role', 'listitem');
+  const article = el('article', 'card');
+  article.innerHTML =
+    `<div class="card-top"><span class="card-track">${s.track}</span><time>${s.time}</time></div>` +
+    `<h4 class="card-title">${s.title}</h4>` +
+    `<p class="card-desc">${s.description}</p>` +
+    `<div class="card-speaker"><span class="speaker-avatar" aria-hidden="true">${s.speaker.charAt(0).toUpperCase()}</span><span>${s.speaker}</span></div>`;
+  slot.append(article);
+  return slot;
+}
+
+// MODO RESILIENTE: datos ya normalizados, texto con textContent.
+function card(session) {
+  const slot = el('div', 'card-slot');
+  slot.setAttribute('role', 'listitem');
+  const article = el('article', 'card');
+  const top = el('div', 'card-top');
+  const timestamp = el('time', 'card-time', session.time);
+  if (/^\d{2}:\d{2}$/.test(session.time)) timestamp.dateTime = session.time;
+  top.append(el('span', 'card-track', session.track), timestamp);
+  const title = el('h4', 'card-title', session.title);
+  const desc = el('p', 'card-desc', session.description);
+  const footer = el('div', 'card-speaker');
+  const avatar = el('span', 'speaker-avatar', Array.from(session.speaker)[0]?.toUpperCase() ?? '?');
+  avatar.setAttribute('aria-hidden', 'true');
+  footer.append(avatar, el('span', '', session.speaker));
+  if (session.lang) { title.lang = session.lang; desc.lang = session.lang; }
+  if (state.clamp) desc.classList.add('clamp');
+  article.append(top, title, desc, footer);
+  slot.append(article);
+  return slot;
+}
+
+function announce(text) {
+  const live = $('#announce');
+  live.textContent = '';
+  $('#announce-visible').textContent = text;
+  requestAnimationFrame(() => { live.textContent = text; });
+}
+function showError(msg) {
+  const b = $('#error-box');
+  b.textContent = b.hidden ? msg : b.textContent + ' · ' + msg;
+  b.hidden = false;
+}
+function hideError() { const b = $('#error-box'); b.hidden = true; b.textContent = ''; }
+
+function resolveData() {
+  if (state.ai) {
+    if (state.mode === 'fragile') {
+      // Lo que haría el código ingenuo: JSON.parse(texto) y .map().
+      try {
+        const d = JSON.parse(state.ai.text);
+        return { raw: d.map((x) => x), notes: [], label: state.ai.label };
+      } catch (e) {
+        return { raw: state.lastRaw, notes: [], label: state.ai.label, error: `Uncaught ${e.name}: ${e.message}`, kept: true };
+      }
+    }
+    try {
+      const r = parseAI(state.ai.text);
+      return { raw: r.items, notes: r.notes, label: state.ai.label };
+    } catch (e) {
+      return { raw: state.lastRaw, notes: [], label: state.ai.label, error: `No pude leer la respuesta: ${e.message} Conservé el contenido anterior.`, kept: true };
+    }
+  }
+  return { raw: state.source, notes: [], label: state.label };
+}
+
+function paintReport(notes) {
+  const list = $('#llega-list');
+  list.replaceChildren();
+  if (state.mode === 'fragile') {
+    list.append(el('li', '', 'Sin validación: lo que llegue se pinta tal cual (innerHTML, sin valores por defecto).'));
+    return;
+  }
+  if (!notes.length) { list.append(el('li', '', 'Sin avisos: los datos llegaron en el formato esperado.')); return; }
+  notes.slice(0, 14).forEach((n) => list.append(el('li', '', n)));
+  if (notes.length > 14) list.append(el('li', '', `… y ${notes.length - 14} avisos más.`));
+}
+
+// «Ver más»: resumir sí, pero dejando una salida (la descripción resumida no cuenta como recortada).
+function addClamps() {
+  requestAnimationFrame(() => {
+    document.querySelectorAll('#session-grid .card-desc.clamp').forEach((d, i) => {
+      if (d.scrollHeight <= d.clientHeight + 1) { d.classList.remove('clamp'); return; }
+      d.id = d.id || 'desc-' + i;
+      const b = el('button', 'more', 'Ver más');
+      b.type = 'button';
+      b.setAttribute('aria-expanded', 'false');
+      b.setAttribute('aria-controls', d.id);
+      b.addEventListener('click', () => {
+        const open = d.classList.toggle('clamp') === false;
+        b.textContent = open ? 'Ver menos' : 'Ver más';
+        b.setAttribute('aria-expanded', String(open));
+        measure();
+      });
+      d.closest('.card').querySelector('.card-speaker').append(b);
+    });
+    measure();
+  });
+}
+
+function measure() {
+  requestAnimationFrame(() => {
+    const grid = $('#session-grid');
+    const nodes = [...grid.querySelectorAll('.card-title, .card-desc:not(.clamp), .card-speaker span:last-child')];
+    const clipped = nodes.filter((n) => n.scrollWidth > n.clientWidth + 1 || n.scrollHeight > n.clientHeight + 1).length;
+    $('#metric-overflow').textContent = String(clipped);
+    // Un texto con "undefined", "null", "NaN" o "[object Object]" es un dato roto; un error sin manejar también (solo en modo frágil).
+    const bad = (t) => (t.match(/\bundefined\b|\bnull\b|\bNaN\b|\[object Object\]/g) || []).length;
+    const broken = nodes.reduce((n, node) => n + bad(node.textContent), 0) + (state.mode === 'fragile' && !$('#error-box').hidden ? 1 : 0);
+    $('#metric-broken').textContent = String(broken);
+  });
+}
+
+function paint() {
+  state.token++; // cancela un streaming en curso
+  state.streaming = false;
+  $('#btn-stream').disabled = false;
+  hideError();
+  $('#xss-banner').hidden = true;
+  $('#preview-message').hidden = true;
+  $('#metric-push').textContent = '—';
+
+  const page = $('#preview-page');
+  const grid = $('#session-grid');
+  page.classList.toggle('fragile', state.mode === 'fragile');
+  page.classList.toggle('robust', state.mode === 'robust');
+  page.classList.toggle('list', state.layout === 'list');
+  page.classList.toggle('reserve', state.reserve);
+  page.style.setProperty('--preview-width', state.width + 'px');
+  page.style.setProperty('--preview-scale', state.scale / 100);
+  $('#width-value').textContent = state.width + ' px';
+  $('#text-value').textContent = state.scale + '%';
+  $('#metric-viewport').textContent = state.width + 'px';
+  $('#mode-fragile').classList.toggle('active', state.mode === 'fragile');
+  $('#mode-robust').classList.toggle('active', state.mode === 'robust');
+  $('#mode-fragile').setAttribute('aria-pressed', String(state.mode === 'fragile'));
+  $('#mode-robust').setAttribute('aria-pressed', String(state.mode === 'robust'));
+  $('#layout-toggle').setAttribute('aria-pressed', String(state.layout === 'list'));
+  const indicator = $('#mode-indicator');
+  indicator.className = 'implementation-label ' + (state.mode === 'fragile' ? 'fragile-label' : 'robust-label');
+  indicator.textContent = state.mode === 'fragile' ? 'FRAGILE MODE' : 'RESILIENT MODE';
+
+  const res = resolveData();
+  if (res.error) showError(res.error);
+  if (!res.error) state.lastRaw = res.raw;
+  const view = mutate(res.raw);
+  grid.replaceChildren();
+  let notes = [];
+  if (state.mode === 'fragile') {
+    try { view.forEach((s) => grid.append(cardFragile(s))); }
+    catch (e) { showError(`Uncaught ${e.name}: ${e.message} · el resto de la lista no se pintó`); }
+  } else {
+    const sessions = view.map((s, i) => normalizeSession(s, i));
+    sessions.forEach((s) => { notes = notes.concat(s.notes); grid.append(card(s)); });
+    notes = res.notes.concat(notes);
+  }
+  paintReport(notes);
+  if (state.mode === 'robust' && state.clamp) addClamps();
+  $('#session-count').textContent = `${grid.children.length} sesiones`;
+  $('#indicator-text').textContent = `${res.label} · ${state.mode === 'fragile' ? 'modo frágil' : 'modo resiliente'}${res.kept ? ' · se muestra el contenido anterior' : ''}`;
+  measure();
+  return res;
+}
+
+function setScenario(key, { announceChange = true } = {}) {
+  if (key === 'ai') {
+    if (!state.ai) { loadSaved('A'); return; }
+    $('#scenario').value = 'ai';
+    const res = paint();
+    if (announceChange) announce(res.error || `${state.ai.label} cargado.`);
+    return;
+  }
+  state.ai = null;
+  state.scenario = key;
+  state.source = fixtures[key];
+  state.label = 'Escenario ' + scenarioNames[key];
+  $('#scenario').value = key;
+  $('#ai-saved').value = '';
+  paint();
+  if (announceChange) announce('Escenario ' + scenarioNames[key] + ' cargado.');
+}
+
+function loadAI(text, label) {
+  state.ai = { text, label };
+  $('#scenario').value = 'ai';
+  const res = paint();
+  announce(res.error || `${label} cargado: ${$('#session-grid').children.length} sesiones.`);
+}
+
+function showPrompt(key) {
+  const k = SAVED[key] ? key : 'A';
+  $('#prompt-text').textContent = SAVED[k].prompt;
+  $('#ai-meta').textContent = SAVED[key]
+    ? `Muestra ${key} · escrita por Claude (Sonnet 5.5) el 6 de nov. de 2026 al responder este prompt. Nombres inventados. Es una muestra, no un estudio.`
+    : 'Elige una muestra guardada, o pega la respuesta de tu IA más abajo.';
+}
+function loadSaved(key) {
+  if (!SAVED[key]) return;
+  $('#ai-saved').value = key;
+  showPrompt(key);
+  loadAI(SAVED[key].response, `Respuesta de IA · ${key} (${SAVED[key].name})`);
+}
+
+async function copyPrompt() {
+  const pre = $('#prompt-text');
+  try {
+    await navigator.clipboard.writeText(pre.textContent);
+    announce('Prompt copiado.');
+  } catch (e) {
+    const range = document.createRange();
+    range.selectNodeContents(pre);
+    const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    announce('No pude copiar automáticamente. El prompt quedó seleccionado: usa Ctrl+C.');
+  }
+}
+
+/* ---------- Estados y streaming ---------- */
+function showPreviewMessage(message) { const p = $('#preview-message'); p.hidden = false; p.textContent = message; }
+function loading() {
+  showPreviewMessage('Generando contenido… esta actualización de estado se anuncia sin mover el foco.');
+  $('#indicator-text').textContent = 'Generando contenido…';
+  announce('Generando contenido.');
+}
+function error() {
+  showPreviewMessage('No fue posible actualizar el contenido. Mantuvimos las sesiones anteriores.');
+  $('#indicator-text').textContent = 'Error simulado. El contenido anterior se mantiene.';
+  announce('No fue posible actualizar el contenido. El contenido anterior está disponible.');
+}
+
+async function stream() {
+  if (state.streaming) return;
+  const grid = $('#session-grid');
+  const descs = [...grid.querySelectorAll('.card-desc')];
+  const target = descs[1] || descs[0];
+  if (!target) { announce('No hay tarjetas para simular el streaming.'); return; }
+  const my = ++state.token;
+  state.streaming = true;
+  $('#btn-stream').disabled = true;
+  $('#preview-message').hidden = true;
+  target.classList.remove('clamp');
+  target.closest('.card')?.querySelector('.more')?.remove();
+  target.classList.add('stream-target');
+  target.textContent = '';
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  const h0 = grid.getBoundingClientRect().height;
+  announce('Respondiendo…');
+  $('#indicator-text').textContent = 'Recibiendo texto por streaming…';
+  let acc = '', maxH = h0;
+  for (const w of STREAM_TEXT.split(' ')) {
+    if (my !== state.token) return;
+    acc += (acc ? ' ' : '') + w;
+    target.textContent = acc;
+    maxH = Math.max(maxH, grid.getBoundingClientRect().height);
+    await sleep(40);
+  }
+  if (my !== state.token) return;
+  const push = Math.round(maxH - h0);
+  const visible = target.scrollWidth > target.clientWidth + 1
+    ? Math.max(1, Math.round(100 * target.clientWidth / target.scrollWidth))
+    : (target.scrollHeight > target.clientHeight + 1 ? Math.round(100 * target.clientHeight / target.scrollHeight) : 100);
+  $('#metric-push').textContent = push + ' px';
+  $('#indicator-text').textContent = `Streaming terminado · empuje ${push} px · texto visible ${visible} %`;
+  announce('Respuesta completa.');
+  state.streaming = false;
+  $('#btn-stream').disabled = false;
+  measure();
+}
+
+/* ---------- Tema e inicio ---------- */
+function updateTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  const dark = theme === 'dark';
+  $('#theme-toggle').setAttribute('aria-label', dark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+  $('#theme-label').textContent = dark ? 'Claro' : 'Oscuro';
+  $('.theme-glyph').textContent = dark ? '☀' : '☾';
+  try { localStorage.setItem('lab-theme', theme); } catch (e) {}
+}
+const MUT_LABELS = { title: 'Título 4× más largo', url: 'URL sin espacios', speaker: 'Una sesión sin ponente', html: 'HTML dentro de un título' };
+
+function init() {
+  let theme = 'light'; // la charla va en modo claro
+  try { theme = localStorage.getItem('lab-theme') || 'light'; } catch (e) {}
+  updateTheme(theme);
+  $('#theme-toggle').addEventListener('click', () => updateTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
+  $('#scenario').addEventListener('change', (e) => setScenario(e.target.value));
+  $('#shuffle').addEventListener('click', () => {
+    const keys = Object.keys(fixtures);
+    setScenario(keys[(keys.indexOf(state.scenario) + 1) % keys.length]);
+  });
+  $('#mode-fragile').addEventListener('click', () => { state.mode = 'fragile'; const r = paint(); announce(r.error ? 'Implementación frágil activa. ' + r.error : 'Implementación frágil activa; el contenido puede truncarse.'); });
+  $('#mode-robust').addEventListener('click', () => { state.mode = 'robust'; const r = paint(); announce(r.error ? 'Implementación resiliente activa. ' + r.error : 'Implementación resiliente activa; contenido sin truncar.'); });
+  $('#width-control').addEventListener('input', (e) => { state.width = Number(e.target.value); paint(); });
+  $('#text-control').addEventListener('input', (e) => { state.scale = Number(e.target.value); paint(); });
+  $('#w320').addEventListener('click', () => { state.width = 320; $('#width-control').value = 320; paint(); announce('Ancho simulado: 320 píxeles.'); });
+  $('#layout-toggle').addEventListener('click', () => { state.layout = state.layout === 'list' ? 'grid' : 'list'; paint(); announce(state.layout === 'list' ? 'Disposición en lista.' : 'Disposición en cuadrícula.'); });
+  $('#simulate-loading').addEventListener('click', loading);
+  $('#simulate-error').addEventListener('click', error);
+  $('#btn-stream').addEventListener('click', stream);
+  $('#clamp').addEventListener('change', (e) => {
+    state.clamp = e.target.checked;
+    const r = paint();
+    announce(r.error || (state.clamp ? 'Descripciones resumidas con «Ver más» (solo en modo resiliente).' : 'Descripciones completas.'));
+  });
+  $('#reserve').addEventListener('change', (e) => {
+    state.reserve = e.target.checked;
+    $('#preview-page').classList.toggle('reserve', state.reserve);
+    announce(state.reserve ? 'Espacio reservado para el texto que llega.' : 'Sin espacio reservado.');
+  });
+  $('#ai-saved').addEventListener('change', (e) => e.target.value ? loadSaved(e.target.value) : showPrompt(''));
+  $('#copy-prompt').addEventListener('click', copyPrompt);
+  $('#ai-use').addEventListener('click', () => {
+    const text = $('#ai-paste').value;
+    if (!text.trim()) { announce('Pega primero una respuesta de tu IA.'); $('#ai-paste').focus(); return; }
+    $('#ai-saved').value = '';
+    loadAI(text, 'Respuesta de IA · pegada');
+  });
+  document.querySelectorAll('[data-mut]').forEach((box) => box.addEventListener('change', () => {
+    const k = box.dataset.mut;
+    box.checked ? state.mut.add(k) : state.mut.delete(k);
+    paint();
+    announce(`${MUT_LABELS[k]} ${box.checked ? 'activada' : 'desactivada'}.`);
+  }));
+  $('#reset').addEventListener('click', () => {
+    Object.assign(state, { mode: 'fragile', width: 680, scale: 100, layout: 'grid', reserve: false, clamp: false });
+    state.mut.clear();
+    $('#width-control').value = 680; $('#text-control').value = 100; $('#reserve').checked = false; $('#clamp').checked = false; $('#ai-paste').value = '';
+    document.querySelectorAll('[data-mut]').forEach((b) => { b.checked = false; });
+    showPrompt('');
+    setScenario('ideal', { announceChange: false });
+    announce('Laboratorio restablecido.');
+  });
+  showPrompt('');
+  setScenario('ideal', { announceChange: false });
+}
+document.addEventListener('DOMContentLoaded', init);
+
+</script>
+</head>
+<body>
+  <a class="skip-link" href="#laboratorio">Saltar al laboratorio</a>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Ir al inicio"><span class="brand-spark" aria-hidden="true">✦</span> shinnmar <span class="brand-slash">/</span> <span>content lab</span></a>
+    <div class="top-actions">
+      <a class="header-link" href="#recursos">Recursos <span aria-hidden="true">↗</span></a>
+      <button id="theme-toggle" class="icon-button" type="button" aria-label="Cambiar a modo oscuro"><span class="theme-glyph" aria-hidden="true">☾</span><span id="theme-label">Oscuro</span></button>
+    </div>
+  </header>
+  <main id="inicio">
+    <section class="intro wrapper" aria-labelledby="page-title">
+      <div class="eyebrow"><span class="status-dot" aria-hidden="true"></span> DEVFEST AREQUIPA 2026 · FRONTEND EXPERIMENT</div>
+      <h1 id="page-title">AI Content<br><em>Stress Lab<span class="period">.</span></em></h1>
+      <p class="lead">La IA genera el contenido. Tú decides si la interfaz está preparada para recibirlo.</p>
+      <div class="intro-tags"><span>CSS moderno</span><span>Vanilla JavaScript</span><span>Accesibilidad web</span><span>Sin frameworks</span></div>
+      <div class="decor-star decor-star-one" aria-hidden="true">✳</div><div class="decor-star decor-star-two" aria-hidden="true">✦</div>
+    </section>
+    <section id="laboratorio" class="lab wrapper" aria-labelledby="lab-title">
+      <div class="section-header"><div><div class="section-index">01 / EXPERIMENTO INTERACTIVO</div><h2 id="lab-title">Let's break the UI <span aria-hidden="true">↘</span></h2><p>Cambia el escenario, rompe la interfaz y activa las soluciones.</p></div><span class="live-pill"><span class="status-dot" aria-hidden="true"></span> LIVE PREVIEW</span></div>
+      <div class="lab-grid">
+        <section class="control-panel" aria-label="Controles de la demo">
+          <div class="panel-heading"><span class="tiny-icon">⚙</span><h3>Control panel</h3><span class="panel-num">01—06</span></div>
+          <fieldset class="field-group"><legend>01 <span>Escenario</span></legend><label class="field-label" for="scenario">¿Qué contenido recibe la interfaz?</label>
+            <select id="scenario"><option value="ideal">01 · Lorem ipsum mode</option><option value="long">02 · Títulos interminables</option><option value="url">03 · URL sin cortes</option><option value="missing">04 · Campos incompletos</option><option value="multilingual">05 · Idiomas + texto variado</option><option value="unsafe">06 · HTML no confiable</option><option value="ai">07 · Respuesta de IA (sección 06)</option></select>
+            <div class="button-pair"><button id="shuffle" class="button button-outline" type="button">↻ Siguiente escenario</button></div>
+            <p id="ai-hint" class="helper">Todo funciona sin internet y la página no puede abrir ninguna conexión.</p>
+          </fieldset>
+          <fieldset class="field-group"><legend>02 <span>Implementación</span></legend><div class="segmented" role="group" aria-label="Cambiar implementación"><button id="mode-fragile" class="seg active" type="button" aria-pressed="true">✕ Frágil</button><button id="mode-robust" class="seg" type="button" aria-pressed="false">✓ Resiliente</button></div><p class="helper">Frágil: confía en el dato, lo pinta como HTML, no valida y usa altura fija. Resiliente: valida, usa textContent y deja crecer la tarjeta.</p><label class="check"><input type="checkbox" id="clamp"> <span>Resumir descripciones largas con «Ver más» (solo en modo resiliente)</span></label></fieldset>
+          <fieldset class="field-group"><legend>03 <span>Contenedor</span></legend><div class="range-head"><label for="width-control">Ancho de la vista</label><output id="width-value" for="width-control">680 px</output></div><input id="width-control" type="range" min="280" max="860" value="680" step="20"><div class="range-labels"><span>280 px</span><span>860 px</span></div><div class="button-pair"><button id="w320" class="button button-outline" type="button">↔ Simular 320 px</button><button id="layout-toggle" class="button button-outline" type="button" aria-pressed="false">☰ Disposición en lista</button></div></fieldset>
+          <fieldset class="field-group"><legend>04 <span>Escala de texto</span></legend><div class="range-head"><label for="text-control">Tamaño dentro del preview</label><output id="text-value" for="text-control">100%</output></div><input id="text-control" type="range" min="100" max="200" value="100" step="25"><div class="range-labels"><span>100%</span><span>200%</span></div></fieldset>
+          <fieldset class="field-group"><legend>05 <span>Estados</span></legend><div class="button-pair"><button class="button button-outline" id="simulate-loading" type="button">◷ Cargando</button><button class="button button-outline" id="simulate-error" type="button">! Error</button></div><button id="btn-stream" class="button button-gradient button-block" type="button">◌ Simular streaming</button><label class="check"><input type="checkbox" id="reserve"> <span>Reservar espacio para el texto que llega (solo en modo resiliente)</span></label><p class="helper">El streaming usa un texto de ejemplo en la tarjeta 2 y mide cuánto empuja a la página.</p><button id="reset" class="button button-reset" type="button">↶ Restablecer laboratorio</button></fieldset>
+          <fieldset class="field-group"><legend>06 <span>Contenido de IA</span></legend>
+            <label class="field-label" for="ai-saved">Respuesta guardada</label>
+            <select id="ai-saved"><option value="">— Elige una muestra —</option><option value="A">A · Prompt simple</option><option value="B">B · Pide «formato»</option><option value="C">C · Con criterios de aceptación</option></select>
+            <p id="ai-meta" class="helper"></p>
+            <details class="prompt"><summary>Ver y copiar el prompt</summary><pre id="prompt-text" tabindex="0"></pre><button id="copy-prompt" class="button button-outline" type="button">Copiar prompt</button></details>
+            <label class="field-label" for="ai-paste">O pega aquí la respuesta de tu IA</label>
+            <textarea id="ai-paste" rows="4" placeholder="Pega la respuesta de Claude, ChatGPT o Gemini, tal cual: con su texto de introducción y su bloque ```json."></textarea>
+            <button id="ai-use" class="button button-gradient button-block" type="button">✧ Usar esta respuesta</button>
+            <p id="mut-label" class="field-label">Estresar la respuesta (las añade el laboratorio; la IA no las produjo)</p>
+            <div class="checks" role="group" aria-labelledby="mut-label">
+              <label class="check"><input type="checkbox" data-mut="title"> <span>Título 4× más largo</span></label>
+              <label class="check"><input type="checkbox" data-mut="url"> <span>URL sin espacios en una descripción</span></label>
+              <label class="check"><input type="checkbox" data-mut="speaker"> <span>Una sesión sin ponente</span></label>
+              <label class="check"><input type="checkbox" data-mut="html"> <span>HTML dentro de un título</span></label>
+            </div>
+          </fieldset>
+        </section>
+        <div class="preview-panel">
+          <div class="preview-toolbar"><div class="browser-dots" aria-hidden="true"><i></i><i></i><i></i></div><span class="preview-title">/preview/sessions</span><span id="mode-indicator" class="implementation-label fragile-label">FRAGILE MODE</span></div>
+          <div class="preview-viewport" id="preview-viewport" tabindex="0" role="region" aria-label="Vista previa de la agenda (puede desplazarse)"><div class="preview-page" id="preview-page">
+            <div class="preview-masthead"><span class="eyebrow-preview">DEVFEST / DEMO DATA</span><span class="mini-chip">WEB TRACK</span></div>
+            <div class="preview-intro"><h3>Agenda generativa<span class="period">.</span></h3><p>Prueba contenido variable en componentes reales.</p></div>
+            <div id="xss-banner" class="xss-banner" hidden>⚠ Este contenido ejecutó código en tu página. Aquí fue un aviso inofensivo; con un script real habría sido tu sesión.</div>
+            <div id="error-box" class="error-box" role="alert" hidden></div>
+            <div id="preview-message" class="preview-message" hidden></div>
+            <div id="session-grid" class="session-grid" role="list" aria-label="Sesiones de ejemplo"></div>
+          </div></div>
+          <div class="preview-footer"><div id="indicator" class="indicator"><span class="indicator-dot" aria-hidden="true"></span><span id="indicator-text">Escenario ideal cargado.</span></div><span id="session-count">3 sesiones</span></div>
+          <div class="metrics"><div><strong id="metric-overflow">—</strong><span>Elementos recortados</span></div><div><strong id="metric-broken">0</strong><span>Datos rotos</span></div><div><strong id="metric-push">—</strong><span>Empuje del streaming</span></div><div><strong id="metric-viewport">680px</strong><span>Contenedor</span></div></div>
+          <section class="llega" aria-labelledby="llega-title"><h4 id="llega-title">INFORME DE LLEGA · qué llegó y qué hicimos</h4><ul id="llega-list"></ul></section>
+          <p class="statusbar">Lo que anunciaría un lector de pantalla: <span id="announce-visible"></span></p>
+        </div>
+      </div>
+      <p class="disclaimer">✦ Las fallas del modo frágil son deliberadas y sirven para comparar soluciones; no lo uses como implementación de producción. Los controles de ancho y de escala son una simulación: verifica también el zoom real del navegador. Las respuestas guardadas son muestras, no un estudio; para la charla puedes pegar la tuya.</p>
+      <p id="announce" class="sr-only" role="status" aria-atomic="true"></p>
+    </section>
+    <section class="wrapper concept" aria-labelledby="concept-title"><div class="section-index">02 / QUIÉN HACE QUÉ</div><h2 id="concept-title">No es CSS <em>versus</em> JS.</h2><div class="concept-grid"><article><div class="concept-icon icon-ai">✳</div><h3>IA</h3><p>Propone contenido variable: no reemplaza la validación de la aplicación.</p></article><article><div class="concept-icon icon-js">{ }</div><h3>JavaScript</h3><p>Gestiona datos, carga, errores, sanitización o renderizado seguro.</p></article><article><div class="concept-icon icon-css">#</div><h3>CSS</h3><p>Adapta la distribución visual, el flujo de texto y los componentes.</p></article><article><div class="concept-icon icon-a11y">◎</div><h3>Accesibilidad</h3><p>Comprueba zoom, navegación, comprensión y cambios de estado.</p></article></div></section>
+    <section class="wrapper snippets" aria-labelledby="snippets-title"><div class="section-index">03 / CÓDIGO EXPLICADO</div><h2 id="snippets-title">Por qué funciona<span class="period">.</span></h2><details open><summary>01 — CSS: del layout rígido al componente flexible</summary><pre tabindex="0"><code>.sessions { display: grid; grid-template-columns:
+  repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+.card { min-width: 0; }
+.card__title { overflow-wrap: anywhere; }
+.card-slot { container-type: inline-size; }
+@container (min-width: 24rem) {
+  .card { grid-template-columns: 4.5rem minmax(0, 1fr); }
+}</code></pre></details><details><summary>02 — JS: no interpretar contenido no confiable como HTML</summary><pre tabindex="0"><code>const heading = document.createElement('h3');
+heading.textContent = session.title ?? 'Sin título';
+const message = document.querySelector('#announce');
+message.textContent = 'Contenido actualizado';</code></pre></details><details><summary>03 — A11y: cambios de estado sin mover el foco</summary><pre tabindex="0"><code>&lt;p id="announce" role="status" aria-atomic="true"&gt;&lt;/p&gt;
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto; }
+}</code></pre></details><details><summary>04 — LLEGA: la IA no siempre devuelve JSON limpio</summary><pre tabindex="0"><code>const fence = text.match(/```\w*\s*([\s\S]*?)```/);   // la IA suele envolver el JSON
+const json = fence ? fence[1] : text;
+let data;
+try { data = JSON.parse(json); }
+catch { /* conserva lo anterior y avisa con role="status" */ }
+el.textContent = String(item.title ?? '').trim() || 'Sin título'; // nunca innerHTML</code></pre></details></section>
+    <section class="wrapper resources" id="recursos" aria-labelledby="resources-title"><div class="section-index">04 / DOCUMENTACIÓN</div><h2 id="resources-title">Built on the web platform.</h2><p>Fuentes oficiales para profundizar y validar lo que se muestra en la charla.</p><div class="resource-list"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Containment/Container_size_and_style_queries" target="_blank" rel="noopener noreferrer">MDN · Container Queries <span aria-hidden="true">↗</span></a><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/overflow-wrap" target="_blank" rel="noopener noreferrer">MDN · overflow-wrap <span aria-hidden="true">↗</span></a><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent" target="_blank" rel="noopener noreferrer">MDN · textContent vs. innerHTML <span aria-hidden="true">↗</span></a><a href="https://www.w3.org/TR/WCAG22/" target="_blank" rel="noopener noreferrer">W3C · WCAG 2.2 <span aria-hidden="true">↗</span></a><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/status_role" target="_blank" rel="noopener noreferrer">MDN · ARIA status <span aria-hidden="true">↗</span></a><a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank" rel="noopener noreferrer">OWASP · Top 10 for LLM Applications <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+  <footer class="footer wrapper"><span>made with <span class="heart">♥</span> by <a href="https://github.com/shinnmar" rel="noopener noreferrer" target="_blank">shinnmar</a></span><span>DevFest Arequipa 2026 · No More Lorem Ipsum</span></footer>
+</body>
+</html>
