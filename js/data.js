@@ -1,31 +1,6 @@
 'use strict';
-/* Datos del laboratorio: respuestas de IA de ejemplo, texto del streaming y escenarios. */
+/* Datos del laboratorio: escenarios y texto del streaming. */
 
-const SAVED = {
-  'A': {
-    'name': 'Prompt simple',
-    'prompt':
-      'Genera 4 sesiones para la agenda de una conferencia de desarrolladores web en Arequipa. Devuélvelas como JSON: un arreglo de objetos con los campos time, track, title, speaker y description.',
-    'response':
-      'Claro, aquí tienes una agenda de ejemplo para la conferencia:\n\n```json\n[\n  {\n    "time": "09:30",\n    "track": "WEB",\n    "title": "Del prototipo a producción: cómo construir aplicaciones web rápidas y accesibles con CSS moderno",\n    "speaker": "Camila Quispe",\n    "description": "Un recorrido práctico por las nuevas capacidades de CSS (container queries, :has() y view transitions) y cómo combinarlas para crear interfaces adaptables sin depender de librerías pesadas."\n  },\n  {\n    "time": "11:00",\n    "track": "IA",\n    "title": "Integrando modelos de lenguaje en tu frontend: patrones, límites y buenas prácticas",\n    "speaker": "Rodrigo Valdivia",\n    "description": "Aprende a conectar APIs de IA generativa con tu interfaz, manejar respuestas en streaming y diseñar experiencias que sigan siendo útiles cuando el modelo tarda, falla o responde algo inesperado."\n  },\n  {\n    "time": "14:00",\n    "track": "UX",\n    "title": "Diseñar para la incertidumbre: interfaces que sobreviven al contenido real",\n    "speaker": "Lucía Mamani",\n    "description": "Textos largos, datos incompletos, traducciones y estados de carga: una guía de decisiones de diseño para componentes que no se rompen cuando el contenido no coincide con el mockup."\n  },\n  {\n    "time": "16:30",\n    "track": "A11Y",\n    "title": "Accesibilidad en la era de la IA generativa: lo que el código autogenerado suele olvidar",\n    "speaker": "Diego Huamán",\n    "description": "Revisamos ejemplos de componentes generados con IA y los auditamos con herramientas automáticas y navegación por teclado para detectar problemas de foco, contraste y semántica."\n  }\n]\n```\n\nSi quieres, puedo ajustar los horarios, los tracks o el tono de las descripciones.',
-  },
-  'B': {
-    'name': 'Pide «formato»',
-    'prompt':
-      'Genera 4 sesiones para la agenda de una conferencia de desarrolladores web en Arequipa. Devuélvelas como JSON: un arreglo de objetos con los campos time, track, title, speaker y description. Quiero descripciones atractivas, con formato (negritas y una lista corta).',
-    'response':
-      '¡Claro! Aquí tienes 4 sesiones con descripciones con formato:\n\n```json\n[\n  {\n    "time": "09:30",\n    "track": "WEB",\n    "title": "CSS moderno sin miedo",\n    "speaker": "Camila Quispe",\n    "description": "**Lo que aprenderás:**\\n- Container queries en componentes reales\\n- Cuándo usar `:has()` y cuándo no\\n- Transiciones de vista sin librerías\\n\\nUna charla práctica, con código desde el minuto uno."\n  },\n  {\n    "time": "11:00",\n    "track": "IA",\n    "title": "Frontend para respuestas de IA",\n    "speaker": "Rodrigo Valdivia",\n    "description": "**Streaming, errores y estados vacíos.**\\n- Cómo pintar texto que llega por partes\\n- Qué hacer cuando el modelo falla\\n- Cómo validar la salida antes de mostrarla\\n\\n_Incluye demo en vivo._"\n  },\n  {\n    "time": "14:00",\n    "track": "UX",\n    "title": "Diseñar para el contenido real",\n    "speaker": "Lucía Mamani",\n    "description": "**Tu mockup no es el contenido.**\\n- Textos largos y traducciones\\n- Datos que faltan\\n- Estados de carga que informan\\n\\nSal con una lista de pruebas para tu próximo componente."\n  },\n  {\n    "time": "16:30",\n    "track": "A11Y",\n    "title": "Accesibilidad con IA: revisa lo que generó",\n    "speaker": "Diego Huamán",\n    "description": "**Auditoría rápida de código generado.**\\n- Teclado y foco\\n- Contraste y semántica\\n- Anuncios para lectores de pantalla\\n\\nTodo se revisa en vivo, sin diapositivas de relleno."\n  }\n]\n```',
-  },
-  'C': {
-    'name': 'Con criterios de aceptación',
-    'prompt':
-      'Genera 4 sesiones para la agenda de una conferencia de desarrolladores web en Arequipa. Devuélvelas como JSON: un arreglo de objetos con los campos time, track, title, speaker y description.\n\nReglas:\n- Responde únicamente con JSON válido, sin texto antes ni después y sin markdown.\n- title: máximo 70 caracteres.\n- description: máximo 140 caracteres, texto plano.\n- Si no conoces el ponente, usa null.',
-    'response':
-      '[\n  {"time": "09:30", "track": "WEB", "title": "CSS moderno para interfaces adaptables", "speaker": "Camila Quispe", "description": "Container queries, :has() y view transitions aplicados a componentes reales."},\n  {"time": "11:00", "track": "IA", "title": "Frontend para respuestas de IA", "speaker": "Rodrigo Valdivia", "description": "Streaming, errores y validación de la salida antes de mostrarla."},\n  {"time": "14:00", "track": "UX", "title": "Diseñar para el contenido real", "speaker": null, "description": "Textos largos, datos faltantes y estados de carga que informan."},\n  {"time": "16:30", "track": "A11Y", "title": "Accesibilidad en código generado por IA", "speaker": "Diego Huamán", "description": "Teclado, foco, contraste y semántica: qué revisar antes de publicar."}\n]',
-  },
-};
-
-// Texto de ejemplo para simular el streaming (no es una respuesta real de IA).
 const STREAM_TEXT =
   'Claro. Para que una tarjeta aguante contenido generado por una IA conviene empezar por lo básico: no asumir cuánto va a medir el texto. Un título puede llegar con tres palabras o con treinta; una descripción, con una frase o con un párrafo entero, y a veces con una URL sin espacios. Si la altura es fija, algo se corta. Si la altura es fluida, algo se mueve. Si reservas espacio, apuestas a que el texto no será más largo de lo previsto. Ninguna opción es gratis: lo importante es elegir cuál pagas y probarla con contenido real, no con un Lorem Ipsum perfecto.';
 

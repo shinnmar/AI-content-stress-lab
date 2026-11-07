@@ -8,10 +8,9 @@ Condiciones que se pueden comprobar con una prueba. Son lo que le das a la IA (j
 | 2 | Ningún texto recortado sin una salida (0 elementos recortados) | CABE | medidor «Elementos recortados» |
 | 3 | Nunca aparece `undefined`, `null`, `NaN` ni `[object Object]` en pantalla | LLEGA | medidor «Datos rotos» |
 | 4 | El HTML que llega dentro de un texto nunca se ejecuta | LLEGA | escenario 06 (`textContent`, no `innerHTML`) |
-| 5 | Una respuesta ilegible no rompe la pantalla: mensaje claro y se conserva el contenido anterior | LLEGA | sección 06, «pegar» |
-| 6 | El streaming no empuja lo que está debajo, o se reserva el espacio a propósito | FLUYE | «Empuje del streaming» |
-| 7 | Los estados se anuncian en un `role="status"`; el texto que va llegando no está en una región en vivo | SE USA | línea «Lo que anunciaría un lector de pantalla» |
-| 8 | Una zona con scroll propio se alcanza con el teclado | SE USA | axe-core y `tabindex="0"` con rol y nombre |
+| 5 | El streaming no empuja lo que está debajo, o se reserva el espacio a propósito | FLUYE | «Empuje del streaming» |
+| 6 | Los estados se anuncian en un `role="status"`; el texto que va llegando no está en una región en vivo | SE USA | línea «Lo que anunciaría un lector de pantalla» |
+| 7 | Una zona con scroll propio se alcanza con el teclado | SE USA | axe-core y `tabindex="0"` con rol y nombre |
 
 ## Pídele a una IA contenido hostil
 
@@ -24,9 +23,8 @@ espacios, Markdown roto, HTML dentro del texto, otros idiomas, campos vacíos y 
 Devuelve solo el JSON.
 ```
 
-Después pega cada respuesta en la sección 06 del laboratorio y mira qué cedió. Si algo se rompe, conviértelo en un criterio nuevo en esta tabla.
+Después pruébalos en tu propio componente y mira qué cedió. Si algo se rompe, conviértelo en un criterio nuevo en esta tabla.
 
 ## Qué hay en esta carpeta
 
-- `escenarios.json`: los seis escenarios del laboratorio (ideal, títulos largos, URL sin cortes, campos incompletos, multilingüe, HTML no confiable).
-- `muestras-ia/`: tres prompts (A, B, C) y las respuestas de ejemplo. Las respuestas **las escribió Claude** para este laboratorio; son muestras, no un estudio ni una medición de ningún modelo.
+- `escenarios.json`: los seis escenarios del laboratorio (ideal, títulos largos, URL sin cortes, campos incompletos, multilingüe, HTML no confiable). Es una copia de `fixtures` en `js/data.js`.

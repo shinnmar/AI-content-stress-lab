@@ -419,7 +419,7 @@ summary:focus-visible {
 .range-head output {
   font-family: ui-monospace, monospace;
   font-weight: 800;
-  color: var(--cyan);
+  color: var(--cyan-ink);
 }
 input[type="range"] {
   width: 100%;
@@ -956,23 +956,6 @@ html[data-theme="dark"] {
 .icon-ai {
   color: var(--pink-ink);
 }
-.field-group textarea {
-  width: 100%;
-  min-height: 5.5rem;
-  resize: vertical;
-  padding: 10px;
-  margin-top: 6px;
-  border-radius: 10px;
-  border: 1px solid var(--line-strong);
-  background: var(--panel-soft);
-  color: var(--text);
-  font:
-    0.78rem/1.45 ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    monospace;
-}
-.field-group textarea:focus-visible,
 .preview-viewport:focus-visible,
 pre:focus-visible {
   outline: 3px solid var(--pink-ink);
@@ -992,27 +975,6 @@ pre:focus-visible {
   flex-shrink: 0;
   width: 16px;
   height: 16px;
-}
-.checks {
-  margin-top: 4px;
-}
-.prompt summary {
-  cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 720;
-  margin-top: 10px;
-}
-.prompt pre {
-  white-space: pre-wrap;
-  font-size: 0.73rem;
-  line-height: 1.5;
-  background: var(--code);
-  color: #e9f3ff;
-  padding: 12px;
-  border-radius: 10px;
-  overflow: auto;
-  max-height: 12rem;
-  margin: 8px 0;
 }
 .button-block {
   margin-top: 10px;

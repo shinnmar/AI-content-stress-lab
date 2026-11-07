@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <!-- CSP: la página no puede abrir conexiones (connect-src 'none'). 'unsafe-inline' en script-src existe
+  <!-- CSP: el JavaScript no puede abrir conexiones (connect-src 'none'); solo se permiten las fuentes de Google Fonts. 'unsafe-inline' en script-src existe
        solo para que el modo Frágil ejecute un XSS inofensivo (un onerror inyectado); no lo uses en producción.
        'file:' permite abrir el proyecto con doble clic. -->
   <meta http-equiv="Content-Security-Policy"
@@ -57,7 +57,7 @@
       <div class="lab-grid">
         <section class="control-panel" aria-label="Controles de la demo">
           <div class="panel-heading"><span class="tiny-icon">⚙</span>
-            <h3>Control panel</h3><span class="panel-num">01—06</span>
+            <h3>Control panel</h3><span class="panel-num">01—05</span>
           </div>
           <fieldset class="field-group">
             <legend>01 <span>Escenario</span></legend><label class="field-label" for="scenario">¿Qué contenido recibe la
@@ -69,11 +69,10 @@
               <option value="missing">04 · Campos incompletos</option>
               <option value="multilingual">05 · Idiomas + texto variado</option>
               <option value="unsafe">06 · HTML no confiable</option>
-              <option value="ai">07 · Respuesta de IA (sección 06)</option>
             </select>
             <div class="button-pair"><button id="shuffle" class="button button-outline" type="button">↻ Siguiente
                 escenario</button></div>
-            <p id="ai-hint" class="helper">Todo funciona sin internet y la página no puede abrir ninguna conexión.</p>
+            <p class="helper">Funciona sin internet, con una fuente del sistema en lugar de Google Sans. El JavaScript no puede abrir conexiones.</p>
           </fieldset>
           <fieldset class="field-group">
             <legend>02 <span>Implementación</span></legend>
@@ -110,36 +109,6 @@
                 para el texto que llega (solo en modo resiliente)</span></label>
             <p class="helper">El streaming usa un texto de ejemplo en la tarjeta 2 y mide cuánto empuja a la página.</p>
             <button id="reset" class="button button-reset" type="button">↶ Restablecer laboratorio</button>
-          </fieldset>
-          <fieldset class="field-group">
-            <legend>06 <span>Contenido de IA</span></legend>
-            <label class="field-label" for="ai-saved">Respuesta guardada</label>
-            <select id="ai-saved">
-              <option value="">— Elige una muestra —</option>
-              <option value="A">A · Prompt simple</option>
-              <option value="B">B · Pide «formato»</option>
-              <option value="C">C · Con criterios de aceptación</option>
-            </select>
-            <p id="ai-meta" class="helper"></p>
-            <details class="prompt">
-              <summary>Ver y copiar el prompt</summary>
-              <pre id="prompt-text" tabindex="0"></pre><button id="copy-prompt" class="button button-outline"
-                type="button">Copiar prompt</button>
-            </details>
-            <label class="field-label" for="ai-paste">O pega aquí la respuesta de tu IA</label>
-            <textarea id="ai-paste" rows="4"
-              placeholder="Pega la respuesta de Claude, ChatGPT o Gemini, tal cual: con su texto de introducción y su bloque ```json."></textarea>
-            <button id="ai-use" class="button button-gradient button-block" type="button">✧ Usar esta respuesta</button>
-            <p id="mut-label" class="field-label">Estresar la respuesta (las añade el laboratorio; la IA no las produjo)
-            </p>
-            <div class="checks" role="group" aria-labelledby="mut-label">
-              <label class="check"><input type="checkbox" data-mut="title"> <span>Título 4× más largo</span></label>
-              <label class="check"><input type="checkbox" data-mut="url"> <span>URL sin espacios en una
-                  descripción</span></label>
-              <label class="check"><input type="checkbox" data-mut="speaker"> <span>Una sesión sin
-                  ponente</span></label>
-              <label class="check"><input type="checkbox" data-mut="html"> <span>HTML dentro de un título</span></label>
-            </div>
           </fieldset>
         </section>
         <div class="preview-panel">
@@ -183,8 +152,7 @@
       </div>
       <p class="disclaimer">✦ Las fallas del modo frágil son deliberadas y sirven para comparar soluciones; no lo uses
         como implementación de producción. Los controles de ancho y de escala son una simulación: verifica también el
-        zoom real del navegador. Las respuestas guardadas son muestras, no un estudio; para la charla puedes pegar la
-        tuya.</p>
+        zoom real del navegador.</p>
       <p id="announce" class="sr-only" role="status" aria-atomic="true"></p>
     </section>
     <section class="wrapper concept" aria-labelledby="concept-title">

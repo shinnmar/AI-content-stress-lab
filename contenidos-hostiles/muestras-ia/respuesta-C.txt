@@ -1,6 +1,0 @@
-[
-  {"time": "09:30", "track": "WEB", "title": "CSS moderno para interfaces adaptables", "speaker": "Camila Quispe", "description": "Container queries, :has() y view transitions aplicados a componentes reales."},
-  {"time": "11:00", "track": "IA", "title": "Frontend para respuestas de IA", "speaker": "Rodrigo Valdivia", "description": "Streaming, errores y validación de la salida antes de mostrarla."},
-  {"time": "14:00", "track": "UX", "title": "Diseñar para el contenido real", "speaker": null, "description": "Textos largos, datos faltantes y estados de carga que informan."},
-  {"time": "16:30", "track": "A11Y", "title": "Accesibilidad en código generado por IA", "speaker": "Diego Huamán", "description": "Teclado, foco, contraste y semántica: qué revisar antes de publicar."}
-]

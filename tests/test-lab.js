@@ -8,7 +8,7 @@ const [labArg, axeArg, outArg] = process.argv.slice(2);
 const labPath = path.resolve(labArg), axePath = path.resolve(axeArg), outDir = path.resolve(outArg);
 fs.mkdirSync(outDir, { recursive: true });
 const axeSrc = fs.readFileSync(axePath, 'utf8');
-const R = { func: [], ai: [], paste: [], mut: [], stream: [], cq: [], w320: [], csp: {}, axe: [], dialogs: [], console: [], requests: [] };
+const R = { func: [], stream: [], cq: [], w320: [], csp: {}, axe: [], dialogs: [], console: [], requests: [] };
 
 const snap = (page) => page.evaluate(() => {
   const g = document.querySelector('#session-grid');
@@ -59,18 +59,6 @@ const snap = (page) => page.evaluate(() => {
         if (sc === 'unsafe' || (sc === 'missing' && mode === 'fragile') || (sc === 'long' && w === 1280)) await page.screenshot({ path: path.join(outDir, `${w}-${mode}-${sc}.png`) });
       }
     }
-    // T2 respuestas guardadas
-    for (const mode of ['fragile', 'robust']) {
-      await setMode(page, mode);
-      await page.selectOption('#scenario', 'ideal');
-      for (const k of ['A', 'B', 'C']) {
-        await page.selectOption('#ai-saved', k); await page.waitForTimeout(250);
-        const s = await snap(page);
-        R.ai.push({ w, mode, k, ...s, notes: s.notes.length + ' avisos: ' + s.notes.slice(0, 6).join(' | ') });
-        await page.screenshot({ path: path.join(outDir, `${w}-${mode}-ai${k}.png`) });
-        await page.selectOption('#scenario', 'ideal'); await page.waitForTimeout(100);
-      }
-    }
     if (w === 1280) {
       // T10 botón «Simular 320 px» (WCAG 1.4.10, reflow)
       for (const mode of ['fragile', 'robust']) {
@@ -81,50 +69,6 @@ const snap = (page) => page.evaluate(() => {
         }
       }
       await page.click('#reset'); await page.waitForTimeout(150);
-      // T3 pegar
-      const base = [{ time: '10:00', track: 'WEB', title: 'Título pegado', speaker: 'Ana Pérez', description: 'Descripción pegada.' }];
-      const cases = {
-        'array JSON limpio': JSON.stringify(base),
-        'prosa + fence': 'Claro, aquí tienes:\n```json\n' + JSON.stringify(base) + '\n```\nSuerte.',
-        'prosa sin fence': 'Aquí va: ' + JSON.stringify(base) + ' Fin.',
-        'objeto envoltorio': JSON.stringify({ sessions: base }),
-        'speaker como objeto': JSON.stringify([{ ...base[0], speaker: { name: 'Ana Pérez', role: 'Dev' } }]),
-        'no es JSON': 'Lo siento, no puedo ayudarte con eso.',
-        'JSON roto': '[{"time": "10:00", "title": "falta cierre"',
-        'elementos no objeto': JSON.stringify(['a', 1, null]),
-        '20 sesiones': JSON.stringify(Array.from({ length: 20 }, (_, i) => ({ ...base[0], title: 'S' + i }))),
-        'lista vacía': '[]',
-      };
-      for (const mode of ['robust', 'fragile']) {
-        await setMode(page, mode);
-        for (const [name, text] of Object.entries(cases)) {
-          await page.selectOption('#scenario', 'long'); await page.waitForTimeout(100);
-          await page.fill('#ai-paste', text); await page.click('#ai-use'); await page.waitForTimeout(250);
-          const s = await snap(page);
-          R.paste.push({ mode, name, cards: s.cards, firstTitle: s.firstTitle, err: s.err, clipped: s.clipped, broken: s.broken, notes: s.notes.slice(0, 5).join(' | ') });
-        }
-      }
-      await page.fill('#ai-paste', ''); await page.click('#ai-use'); await page.waitForTimeout(150);
-      R.paste.push({ mode: 'any', name: 'vacío', live: (await snap(page)).live, focusId: await page.evaluate(() => document.activeElement.id) });
-
-      // T4 mutaciones
-      for (const mode of ['fragile', 'robust']) {
-        await setMode(page, mode);
-        for (const k of ['A', 'C']) {
-          for (const mu of ['title', 'url', 'speaker', 'html']) {
-            await page.selectOption('#ai-saved', k); await page.waitForTimeout(150);
-            await page.check(`[data-mut="${mu}"]`); await page.waitForTimeout(250);
-            const s = await snap(page);
-            R.mut.push({ mode, k, mu, cards: s.cards, clipped: s.clipped, broken: s.broken, err: s.err, xss: s.xss });
-            await page.uncheck(`[data-mut="${mu}"]`); await page.waitForTimeout(100);
-          }
-        }
-      }
-      await page.selectOption('#ai-saved', 'A'); await setMode(page, 'robust');
-      for (const mu of ['title', 'url', 'speaker', 'html']) await page.check(`[data-mut="${mu}"]`);
-      await page.waitForTimeout(300); await page.screenshot({ path: path.join(outDir, `1280-robust-aiA-allmut.png`) });
-      for (const mu of ['title', 'url', 'speaker', 'html']) await page.uncheck(`[data-mut="${mu}"]`);
-
       // T6 container query
       for (const layout of ['grid', 'list']) {
         await page.click('#reset'); await page.waitForTimeout(150);
@@ -182,15 +126,15 @@ const snap = (page) => page.evaluate(() => {
   // T8 axe (con la CSP activa: se inyecta como script inline)
   for (const w of [1280, 375]) {
     for (const theme of ['light', 'dark']) {
-      for (const st of ['inicio', 'robust+A', 'fragile+unsafe', 'robust+A+mutaciones+error']) {
+      for (const st of ['inicio', 'robust+long', 'fragile+unsafe', 'robust+clamp+error']) {
         const page = await newPage(w);
         if (theme === 'dark') await page.click('#theme-toggle');
-        if (st === 'robust+A') { await setMode(page, 'robust'); await page.selectOption('#ai-saved', 'A'); }
+        if (st === 'robust+long') { await setMode(page, 'robust'); await page.selectOption('#scenario', 'long'); }
         if (st === 'fragile+unsafe') { await page.selectOption('#scenario', 'unsafe'); }
-        if (st === 'robust+A+mutaciones+error') { await setMode(page, 'robust'); await page.selectOption('#ai-saved', 'A'); for (const mu of ['title', 'url', 'speaker', 'html']) await page.check(`[data-mut="${mu}"]`); await page.click('#simulate-error'); await page.click('details.prompt summary'); }
+        if (st === 'robust+clamp+error') { await setMode(page, 'robust'); await page.selectOption('#scenario', 'long'); await page.check('#clamp'); await page.click('#simulate-error'); }
         await page.waitForTimeout(300);
         await page.addScriptTag({ content: axeSrc });
-        const res = await page.evaluate(async () => await window.axe.run(document, { resultTypes: ['violations'] }));
+        const res = await page.evaluate(async () => await window.axe.run(document, { resultTypes: ['violations'], preload: false }));
         R.axe.push({ w, theme, st, violations: res.violations.map((v) => ({ id: v.id, impact: v.impact, nodes: v.nodes.length, targets: v.nodes.slice(0, 3).map((n) => n.target.join(' ') + (n.any[0]?.data?.contrastRatio ? ' [' + n.any[0].data.contrastRatio + ']' : '')) })) });
         await page.context().close();
       }

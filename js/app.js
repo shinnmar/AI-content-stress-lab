@@ -7,17 +7,14 @@ const state = {
   source: fixtures.ideal,
   scenario: "ideal",
   label: "Escenario " + scenarioNames.ideal,
-  ai: null,
   mode: "fragile",
   width: 680,
   scale: 100,
   layout: "grid",
-  mut: new Set(),
   reserve: false,
   clamp: false,
   streaming: false,
   token: 0,
-  lastRaw: fixtures.ideal,
 };
 
 /* ---------- Acciones que ejecuta el contenido hostil (inofensivas) ---------- */
@@ -25,44 +22,6 @@ window.__xss = function () {
   $("#xss-banner").hidden = false;
   announce("Advertencia: el contenido ejecutó código en la página.");
 };
-
-/* ---------- Mutaciones: las añade el laboratorio, no la IA ---------- */
-function mutate(list) {
-  if (!state.mut.size) return list;
-  const out = list.map((x) =>
-    x && typeof x === "object" && !Array.isArray(x) ? { ...x } : x,
-  );
-  const at = (k) => {
-    const s = out[Math.min(k, out.length - 1)];
-    return s && typeof s === "object" ? s : null;
-  };
-  if (state.mut.has("title")) {
-    const s = at(0);
-    if (s && typeof s.title === "string")
-      s.title = Array(4).fill(s.title).join(" — ");
-  }
-  if (state.mut.has("url")) {
-    const s = at(1);
-    if (s)
-      s.description =
-        "https://devfest.example/agenda/sesiones/" +
-        "propuesta-de-interfaces-resilientes-para-contenido-generado-por-ia-".repeat(
-          3,
-        ) +
-        "sin-espacios";
-  }
-  if (state.mut.has("html")) {
-    const s = at(1);
-    if (s)
-      s.title =
-        '<img src=x onerror="window.__xss&&window.__xss()"> ' + (s.title ?? "");
-  }
-  if (state.mut.has("speaker")) {
-    const s = at(2);
-    if (s) delete s.speaker;
-  }
-  return out;
-}
 
 /* ---------- Render ---------- */
 function el(tag, className, text) {
@@ -132,39 +91,6 @@ function hideError() {
   const b = $("#error-box");
   b.hidden = true;
   b.textContent = "";
-}
-
-function resolveData() {
-  if (state.ai) {
-    if (state.mode === "fragile") {
-      // Lo que haría el código ingenuo: JSON.parse(texto) y .map().
-      try {
-        const d = JSON.parse(state.ai.text);
-        return { raw: d.map((x) => x), notes: [], label: state.ai.label };
-      } catch (e) {
-        return {
-          raw: state.lastRaw,
-          notes: [],
-          label: state.ai.label,
-          error: `Uncaught ${e.name}: ${e.message}`,
-          kept: true,
-        };
-      }
-    }
-    try {
-      const r = parseAI(state.ai.text);
-      return { raw: r.items, notes: r.notes, label: state.ai.label };
-    } catch (e) {
-      return {
-        raw: state.lastRaw,
-        notes: [],
-        label: state.ai.label,
-        error: `No pude leer la respuesta: ${e.message} Conservé el contenido anterior.`,
-        kept: true,
-      };
-    }
-  }
-  return { raw: state.source, notes: [], label: state.label };
 }
 
 function paintReport(notes) {
@@ -284,10 +210,7 @@ function paint() {
   indicator.textContent =
     state.mode === "fragile" ? "FRAGILE MODE" : "RESILIENT MODE";
 
-  const res = resolveData();
-  if (res.error) showError(res.error);
-  if (!res.error) state.lastRaw = res.raw;
-  const view = mutate(res.raw);
+  const view = state.source;
   grid.replaceChildren();
   let notes = [];
   if (state.mode === "fragile") {
@@ -304,77 +227,22 @@ function paint() {
       notes = notes.concat(s.notes);
       grid.append(card(s));
     });
-    notes = res.notes.concat(notes);
   }
   paintReport(notes);
   if (state.mode === "robust" && state.clamp) addClamps();
   $("#session-count").textContent = `${grid.children.length} sesiones`;
   $("#indicator-text").textContent =
-    `${res.label} · ${state.mode === "fragile" ? "modo frágil" : "modo resiliente"}${res.kept ? " · se muestra el contenido anterior" : ""}`;
+    `${state.label} · ${state.mode === "fragile" ? "modo frágil" : "modo resiliente"}`;
   measure();
-  return res;
 }
 
 function setScenario(key, { announceChange = true } = {}) {
-  if (key === "ai") {
-    if (!state.ai) {
-      loadSaved("A");
-      return;
-    }
-    $("#scenario").value = "ai";
-    const res = paint();
-    if (announceChange) announce(res.error || `${state.ai.label} cargado.`);
-    return;
-  }
-  state.ai = null;
   state.scenario = key;
   state.source = fixtures[key];
   state.label = "Escenario " + scenarioNames[key];
   $("#scenario").value = key;
-  $("#ai-saved").value = "";
   paint();
   if (announceChange) announce("Escenario " + scenarioNames[key] + " cargado.");
-}
-
-function loadAI(text, label) {
-  state.ai = { text, label };
-  $("#scenario").value = "ai";
-  const res = paint();
-  announce(
-    res.error ||
-      `${label} cargado: ${$("#session-grid").children.length} sesiones.`,
-  );
-}
-
-function showPrompt(key) {
-  const k = SAVED[key] ? key : "A";
-  $("#prompt-text").textContent = SAVED[k].prompt;
-  $("#ai-meta").textContent = SAVED[key]
-    ? `Muestra ${key} · escrita por Claude (Sonnet 5.5) el 6 de nov. de 2026 al responder este prompt. Nombres inventados. Es una muestra, no un estudio.`
-    : "Elige una muestra guardada, o pega la respuesta de tu IA más abajo.";
-}
-function loadSaved(key) {
-  if (!SAVED[key]) return;
-  $("#ai-saved").value = key;
-  showPrompt(key);
-  loadAI(SAVED[key].response, `Respuesta de IA · ${key} (${SAVED[key].name})`);
-}
-
-async function copyPrompt() {
-  const pre = $("#prompt-text");
-  try {
-    await navigator.clipboard.writeText(pre.textContent);
-    announce("Prompt copiado.");
-  } catch (e) {
-    const range = document.createRange();
-    range.selectNodeContents(pre);
-    const sel = getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
-    announce(
-      "No pude copiar automáticamente. El prompt quedó seleccionado: usa Ctrl+C.",
-    );
-  }
 }
 
 /* ---------- Estados y streaming ---------- */
@@ -464,13 +332,6 @@ function updateTheme(theme) {
     localStorage.setItem("lab-theme", theme);
   } catch (e) {}
 }
-const MUT_LABELS = {
-  title: "Título 4× más largo",
-  url: "URL sin espacios",
-  speaker: "Una sesión sin ponente",
-  html: "HTML dentro de un título",
-};
-
 function init() {
   let theme = "light"; // la charla va en modo claro
   try {
@@ -489,21 +350,13 @@ function init() {
   });
   $("#mode-fragile").addEventListener("click", () => {
     state.mode = "fragile";
-    const r = paint();
-    announce(
-      r.error
-        ? "Implementación frágil activa. " + r.error
-        : "Implementación frágil activa; el contenido puede truncarse.",
-    );
+    paint();
+    announce("Implementación frágil activa; el contenido puede truncarse.");
   });
   $("#mode-robust").addEventListener("click", () => {
     state.mode = "robust";
-    const r = paint();
-    announce(
-      r.error
-        ? "Implementación resiliente activa. " + r.error
-        : "Implementación resiliente activa; contenido sin truncar.",
-    );
+    paint();
+    announce("Implementación resiliente activa; contenido sin truncar.");
   });
   $("#width-control").addEventListener("input", (e) => {
     state.width = Number(e.target.value);
@@ -533,12 +386,11 @@ function init() {
   $("#btn-stream").addEventListener("click", stream);
   $("#clamp").addEventListener("change", (e) => {
     state.clamp = e.target.checked;
-    const r = paint();
+    paint();
     announce(
-      r.error ||
-        (state.clamp
-          ? "Descripciones resumidas con «Ver más» (solo en modo resiliente)."
-          : "Descripciones completas."),
+      state.clamp
+        ? "Descripciones resumidas con «Ver más» (solo en modo resiliente)."
+        : "Descripciones completas.",
     );
   });
   $("#reserve").addEventListener("change", (e) => {
@@ -550,28 +402,6 @@ function init() {
         : "Sin espacio reservado.",
     );
   });
-  $("#ai-saved").addEventListener("change", (e) =>
-    e.target.value ? loadSaved(e.target.value) : showPrompt(""),
-  );
-  $("#copy-prompt").addEventListener("click", copyPrompt);
-  $("#ai-use").addEventListener("click", () => {
-    const text = $("#ai-paste").value;
-    if (!text.trim()) {
-      announce("Pega primero una respuesta de tu IA.");
-      $("#ai-paste").focus();
-      return;
-    }
-    $("#ai-saved").value = "";
-    loadAI(text, "Respuesta de IA · pegada");
-  });
-  document.querySelectorAll("[data-mut]").forEach((box) =>
-    box.addEventListener("change", () => {
-      const k = box.dataset.mut;
-      box.checked ? state.mut.add(k) : state.mut.delete(k);
-      paint();
-      announce(`${MUT_LABELS[k]} ${box.checked ? "activada" : "desactivada"}.`);
-    }),
-  );
   $("#reset").addEventListener("click", () => {
     Object.assign(state, {
       mode: "fragile",
@@ -581,20 +411,13 @@ function init() {
       reserve: false,
       clamp: false,
     });
-    state.mut.clear();
     $("#width-control").value = 680;
     $("#text-control").value = 100;
     $("#reserve").checked = false;
     $("#clamp").checked = false;
-    $("#ai-paste").value = "";
-    document.querySelectorAll("[data-mut]").forEach((b) => {
-      b.checked = false;
-    });
-    showPrompt("");
     setScenario("ideal", { announceChange: false });
     announce("Laboratorio restablecido.");
   });
-  showPrompt("");
   setScenario("ideal", { announceChange: false });
 }
 document.addEventListener("DOMContentLoaded", init);
