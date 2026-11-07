@@ -1,0 +1,36 @@
+Claro, aquí tienes una agenda de ejemplo para la conferencia:
+
+```json
+[
+  {
+    "time": "09:30",
+    "track": "WEB",
+    "title": "Del prototipo a producción: cómo construir aplicaciones web rápidas y accesibles con CSS moderno",
+    "speaker": "Camila Quispe",
+    "description": "Un recorrido práctico por las nuevas capacidades de CSS (container queries, :has() y view transitions) y cómo combinarlas para crear interfaces adaptables sin depender de librerías pesadas."
+  },
+  {
+    "time": "11:00",
+    "track": "IA",
+    "title": "Integrando modelos de lenguaje en tu frontend: patrones, límites y buenas prácticas",
+    "speaker": "Rodrigo Valdivia",
+    "description": "Aprende a conectar APIs de IA generativa con tu interfaz, manejar respuestas en streaming y diseñar experiencias que sigan siendo útiles cuando el modelo tarda, falla o responde algo inesperado."
+  },
+  {
+    "time": "14:00",
+    "track": "UX",
+    "title": "Diseñar para la incertidumbre: interfaces que sobreviven al contenido real",
+    "speaker": "Lucía Mamani",
+    "description": "Textos largos, datos incompletos, traducciones y estados de carga: una guía de decisiones de diseño para componentes que no se rompen cuando el contenido no coincide con el mockup."
+  },
+  {
+    "time": "16:30",
+    "track": "A11Y",
+    "title": "Accesibilidad en la era de la IA generativa: lo que el código autogenerado suele olvidar",
+    "speaker": "Diego Huamán",
+    "description": "Revisamos ejemplos de componentes generados con IA y los auditamos con herramientas automáticas y navegación por teclado para detectar problemas de foco, contraste y semántica."
+  }
+]
+```
+
+Si quieres, puedo ajustar los horarios, los tracks o el tono de las descripciones.

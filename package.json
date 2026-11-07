@@ -1,0 +1,15 @@
+{
+  "name": "no-more-lorem-ipsum",
+  "version": "2.0.0",
+  "private": true,
+  "description": "AI Content Stress Lab: probar interfaces con contenido generado por IA (LLEGA, CABE, FLUYE, SE USA). DevFest Arequipa 2026.",
+  "scripts": {
+    "setup": "playwright install chromium",
+    "test": "node tests/test-lab.js index.html node_modules/axe-core/axe.min.js test-results && node tests/check.js test-results/results.json",
+    "test:stream": "node tests/stream-test.js index.html"
+  },
+  "devDependencies": {
+    "axe-core": "^4.10.2",
+    "playwright": "^1.63.0"
+  }
+}

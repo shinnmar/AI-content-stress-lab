@@ -1,0 +1,1 @@
+Genera 4 sesiones para la agenda de una conferencia de desarrolladores web en Arequipa. Devuélvelas como JSON: un arreglo de objetos con los campos time, track, title, speaker y description.
