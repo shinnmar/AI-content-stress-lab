@@ -44,12 +44,6 @@ Después de cada prueba, la misma pregunta: **¿qué cedió?**
 
 La carpeta [`contenidos-hostiles/`](contenidos-hostiles/) tiene los escenarios del laboratorio en JSON (`escenarios.json` es una copia de `fixtures` en `js/data.js`), tres prompts con respuestas de ejemplo y la lista de [criterios de aceptación](contenidos-hostiles/criterios-de-aceptacion.md); `npm test` comprueba casi todos. Cópialos a tu propio proyecto.
 
-## Pruébalo con tu IA
-
-Sección **06 · Contenido de IA** del laboratorio: copia el prompt, pégalo en la IA que uses, pega su respuesta tal cual y pulsa «Usar esta respuesta». Alterna Frágil y Resiliente.
-
-**El laboratorio no llama a ninguna IA ni usa API key.** Las tres respuestas guardadas las escribió Claude; son muestras, no un estudio.
-
 ## Pruebas
 
 Hace falta Node 18 o superior.
